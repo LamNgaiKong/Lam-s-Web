@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f4f6f9">
+<meta name="description" content="AI 大模型、AI Agent 与代码助手产品、名词释义、物理 AI 的中文技术整理，含版本脉络与选型参考。">
+<meta property="og:title" content="AI 大模型与编程助手技术整理 · AI 知识库">
+<meta property="og:description" content="AI 大模型、AI Agent 与代码助手产品、名词释义、物理 AI 的中文技术整理，含版本脉络与选型参考。">
+<meta property="og:type" content="article">
+<title>AI 大模型与编程助手技术整理 · AI 知识库</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Cpath d='M16 6.5l2.6 6.4 6.4 2.6-6.4 2.6L16 24.5l-2.6-6.4L7 15.5l6.4-2.6z' fill='%23fff'/%3E%3C/svg%3E">
+<script>
+  // 尽早设定主题，避免深色模式闪白
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('ai-kb-theme'); } catch (e) {}
+    if (!t) {
+      t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js" defer></script>
+</head>
+<body data-toc-mode="main">
+<div class="progress" data-progress></div>
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="AI大模型与编程助手整理.html">
+      <span class="brand__mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.6l2.3 5.7 5.7 2.3-5.7 2.3L12 18.6l-2.3-5.7L4 10.6l5.7-2.3z" fill="currentColor"/></svg></span>
+      <span class="brand__text">AI 知识库<small>DSH AI Up</small></span>
+    </a>
+    <button class="icon-btn icon-btn--ghost nav-toggle" type="button" data-nav-toggle
+            aria-expanded="false" aria-controls="sidebar" aria-label="打开目录"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="nav" aria-label="站点导航">
+        <a href="AI大模型与编程助手整理.html" aria-current="page">大模型与编程助手</a>
+        <a href="Agentic设计模式读书笔记.html">Agentic 设计模式笔记</a>
+    </nav>
+    <div class="topbar__tools">
+      <form class="search" role="search" data-search-form data-open="false">
+        <svg class="search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" data-search-input autocomplete="off" spellcheck="false"
+               placeholder="搜索本页：模型 / 产品 / 名词…" aria-label="搜索本页内容">
+        <kbd>/</kbd>
+        <button type="button" class="search__clear" data-search-clear aria-label="清除搜索">&#215;</button>
+      </form>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="切换深色模式"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.9 6.9 0 0 0 11.1 11.1z"/></svg></button>
+      <button class="icon-btn" type="button" data-print aria-label="打印或导出 PDF" title="打印 / 导出 PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 9V3.5h11V9"/><rect x="3.5" y="9" width="17" height="7.5" rx="2"/><path d="M6.5 16.5v4h11v-4"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar" data-sidebar aria-label="本页目录">
+    <p class="sidebar__label">本页目录</p>
+    <ul class="toc" data-toc></ul>
+    <div class="sidebar__foot"><strong>快捷键</strong>：<kbd>/</kbd> 或 <kbd>Ctrl K</kbd> 聚焦搜索，<kbd>Esc</kbd> 清除<br><strong>主题</strong>：右上角切换，首次访问跟随系统设置</div>
+  </aside>
+
+  <main class="content" id="main">
+    <div class="page-head">
+      <span class="page-head__eyebrow">AI 知识库 · 技术整理</span>
+      <h1>AI 大模型与编程助手技术整理文档</h1>
+      <p class="page-head__lead">一份持续维护的中文速查表：从基础大模型的版本脉络，到 AI Agent / 代码助手的产品格局，再到关键名词释义与物理 AI（具身智能）专题。版本信息以公开稳定版本为准。</p>
+      <ul class="meta-row">
+        <li class="meta-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></svg>更新 <b>2026-11-12</b></li>
+        <li class="meta-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3.5 8.5 4.5L12 12.5 3.5 8 12 3.5Z"/><path d="m4.5 12.4 7.5 4 7.5-4"/><path d="m4.5 16.6 7.5 4 7.5-4"/></svg>板块 <b>4</b> 个</li>
+        <li class="meta-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1 0l2.4-2.4a5 5 0 0 0-7.1-7.1L11 4.9"/><path d="M14 11a5 5 0 0 0-7.1 0L4.5 13.4a5 5 0 0 0 7.1 7.1L13 19.1"/></svg>来源 <b>45</b> 条</li>
+        <li class="meta-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4.8A2.3 2.3 0 0 1 6.3 2.5H20v17.2H6.3A2.3 2.3 0 0 0 4 22V4.8Z"/><path d="M4 19.7A2.3 2.3 0 0 1 6.3 17.4H20"/></svg>词条与项目 <b>42</b> 条</li>
+      </ul>
+    </div>
+    <div class="search-status" data-search-status></div>
+  <!-- 板块一：基础大模型 -->
+  <section class="board">
+    <h2>板块一：基础大模型 <span class="badge">基座原生模型</span></h2>
+    <p class="subtitle">仅收录自研基座的原生大模型；按海外模型在前、国内模型在后排序；上层应用产品请见板块二。</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>名称</th><th>所属主体公司</th><th>当前最新稳定版本</th><th>底层底座</th><th>核心强项</th><th>典型短板</th><th>最适合的使用场景</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-search-item>
+            <td class="name">Claude</td>
+            <td>Anthropic（美国）</td>
+            <td>Claude Opus 5（2026-07-24 发布，旗舰）/ Claude Sonnet 5.5</td>
+            <td>自研基座 <span class="tag tag--self">自研</span></td>
+            <td>代码与 Agent 能力顶尖、长上下文、指令遵循与写作质量高、安全对齐成熟</td>
+            <td>Opus 定价高（输出 $25/百万 Token）、部分区域服务受限、中文生态相对弱</td>
+            <td>复杂代码生成与多步 Agent 任务、长文档处理、Cursor / Claude Code 等工具的主力底座</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">GPT</td>
+            <td>OpenAI（美国）</td>
+            <td>GPT-6.1 系列（Terra 旗舰，2026-10-26；Sol Ultrafast 高速版，2026-10-09；此前 GPT-5.6 于 2026-07 上线 ChatGPT）</td>
+            <td>自研基座 <span class="tag tag--self">自研</span></td>
+            <td>综合能力均衡、工具调用与函数调用成熟、生态最庞大（ChatGPT/Codex/API）、多模态完善</td>
+            <td>旗舰模型价格与延迟偏高、迭代节奏波动（GPT-6.1 Astra 已取消发布）</td>
+            <td>通用办公与知识问答、ChatGPT/Codex 平台、需要成熟工具链的企业级应用</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">Gemini</td>
+            <td>Google DeepMind（美国）</td>
+            <td>Gemini 4（Carbon 旗舰，2026-10 下旬发布；轻量线为 Gemini 3.5 Flash）</td>
+            <td>自研基座 <span class="tag tag--self">自研</span></td>
+            <td>原生多模态最强、超长上下文、与 Google 搜索/Workspace 生态深度集成、中低端型号性价比高</td>
+            <td>代码 Agent 与开发者生态相对落后于 Claude/GPT、企业渗透仍在追赶</td>
+            <td>音视频/图像多模态理解、超长文档分析、Google 生态内办公与研究</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">Grok</td>
+            <td>xAI（美国，马斯克旗下）</td>
+            <td>Grok 4.6（2026-08 起作为旗舰在 API 推出，50 万 Token 上下文，并接入 GitHub Copilot；前代 Grok 4.2 发布于 2026-02）</td>
+            <td>自研基座 <span class="tag tag--self">自研</span></td>
+            <td>与 X 平台深度集成的实时信息能力、超长上下文、代码与多模态迭代速度快</td>
+            <td>企业级 API 与开发者生态相对年轻、稳定性口碑波动、中文支持一般</td>
+            <td>X 平台内实时问答与深度研究、个人用户前沿推理、GitHub Copilot 内的编码场景</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">Muse <span class="tag tag--warn">注：Meta 的 Muse 系列</span></td>
+            <td>Meta（美国）</td>
+            <td>Muse Spark 1.2（2026-08 随 Muse Code 发布，闭源，官方称计划未来开源权重）</td>
+            <td>自研基座 <span class="tag tag--self">自研</span></td>
+            <td>面向大型代码库的工程任务（规划变更→写码→验证）、定价激进（Muse Code 约 $5/月）</td>
+            <td>基座闭源、生态刚起步、多模态与通用能力未充分验证</td>
+            <td>与 Muse Code 搭配的终端编程智能体场景、成本敏感的大代码库维护</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">GLM</td>
+            <td>智谱 AI（Z.ai，中国）</td>
+            <td>GLM-5.3（官方当前旗舰，与 GLM-5.2 同基座、后训练增强；GLM-5.2 于 2026-06-15 发布，支持 1M 上下文）</td>
+            <td>自研基座（GLM-5 系列开源） <span class="tag tag--self">自研·开源</span></td>
+            <td>智能体（Agent）编程能力突出（GLM-5 主打智能体编程）、1M 长上下文、开源与国内合规部署成熟</td>
+            <td>海外开发者影响力有限、旗舰模型综合能力与顶级闭源模型仍有差距</td>
+            <td>国内企业私有化/信创部署、AutoGLM/GLM-PC 智能体生态、复杂软件工程任务</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">DeepSeek</td>
+            <td>深度求索（中国）</td>
+            <td>DeepSeek-V4 Pro 正式版（2026-08-13）/ DeepSeek-V4.1 Flash（2026-09-10 发布，2026-10-17 更新至 V4.1-Flash-1017）</td>
+            <td>自研基座（开源权重） <span class="tag tag--self">自研·开源</span></td>
+            <td>极高性价比、开源可私有化部署、代码与推理能力强、中文表现优秀</td>
+            <td>多模态与高端复杂 Agent 稳定性略逊于头部闭源模型、海外生态有限</td>
+            <td>成本敏感的大规模调用、私有化/信创部署、中文开发与教学场景</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">Kimi</td>
+            <td>月之暗面 Moonshot AI（中国）</td>
+            <td>Kimi K3.1 Pro（2026-10-24 发布；前代 K3 于 2026-07-16 发布）</td>
+            <td>自研基座（K3 系列开源） <span class="tag tag--self">自研·开源</span></td>
+            <td>超长上下文（100 万 Token）、编程与智能体能力（K3.1 Pro 主打代码/3D/金融研究）、中文生态好</td>
+            <td>海外开发者生态较弱、通用多模态能力相对不突出</td>
+            <td>Kimi Code / Kimi 助手、长文档与深度研究、中文复杂编程任务</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 板块二：AI Agent / 代码助手产品 -->
+  <section class="board">
+    <h2>板块二：AI Agent / 代码助手产品 <span class="badge">产品与开源框架</span></h2>
+    <p class="subtitle">应用产品不自研基座的，如实标注所调用的底座。</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>名称</th><th>所属主体公司</th><th>当前最新稳定版本</th><th>底层底座</th><th>核心强项</th><th>典型短板</th><th>最适合的使用场景</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-search-item>
+            <td class="name">Codex <span class="tag tag--warn">已停止独立迭代</span></td>
+            <td>OpenAI（美国）</td>
+            <td>独立 Codex 客户端已于 2026-07 正式退场，能力全部并入 ChatGPT 桌面应用与开发者工作流（DevDay 2026 仍作为能力线更新）</td>
+            <td>调用 OpenAI GPT 系列（GPT-5.6 及后续版本） <span class="tag tag--ext">调用底座</span></td>
+            <td>与 ChatGPT 生态整合后的"一个入口"体验、云端沙箱执行、任务代理能力</td>
+            <td>不再有独立产品路线图，依赖 ChatGPT 订阅体系；独立用户迁移成本</td>
+            <td>深度绑定 ChatGPT/OpenAI 账户的个人开发者，云端运行编码任务</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">Qoder <span class="tag tag--default">前身为通义灵码</span></td>
+            <td>Bright Zenith Private Limited（新加坡注册，阿里巴巴集团附属公司；国内版 Qoder CN）</td>
+            <td>桌面端 0.5.x（本机实测安装版本 0.5.3，2026-11）</td>
+            <td>以通义千问（Qwen）系列为主，支持多模型接入 <span class="tag tag--ext">调用底座</span></td>
+            <td>增强上下文工程、Spec 驱动开发、Repo Wiki 知识可视化、Agent Mode / Quest Mode 工作流、编程行为预测</td>
+            <td>品牌认知度尚在爬坡（更名不久）、国际版生态年轻、重度依赖平台工作流</td>
+            <td>存量代码库理解与重构、Spec 规范驱动开发、国内网络环境下团队协作</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">WorkBuddy</td>
+            <td>腾讯（腾讯云 CodeBuddy 团队，腾讯云计算（北京）有限责任公司）</td>
+            <td>2026-03-09 上线，桌面版持续快速迭代（官方未突出公开大版本号）</td>
+            <td>以腾讯混元大模型为核心，支持多模型混合接入 <span class="tag tag--ext">调用底座</span></td>
+            <td>系统级桌面 Agent（可直接读写本地文件）、多 Agent 并行协作、办公自动化闭环</td>
+            <td>偏办公自动化而非深度代码工程，编程能力弱于专业 IDE 类工具</td>
+            <td>非程序员办公提效、文档/表格/流程自动化、企业办公智能体场景</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">Trae</td>
+            <td>字节跳动（中国）</td>
+            <td>持续周更（2025 年累计 200+ 次更新；2026-05 起主打 SOLO 全流程自主开发模式，官方未突出大版本号）</td>
+            <td>多模型接入（国内版以豆包、DeepSeek 等为主，国际版支持 Claude、GPT 等） <span class="tag tag--ext">调用底座</span></td>
+            <td>基于 VS Code 内核、中文体验好、Chat/Builder/SOLO 三级协作模式、免费力度大、全球用户量大</td>
+            <td>顶级模型需外部接入、产品定位随迭代频繁调整、深度定制能力弱于 Cursor</td>
+            <td>国内开发者免费入门 AI 编程、中文团队协作、SOLO 全流程自动化开发</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">Cursor</td>
+            <td>Anysphere（美国）</td>
+            <td>3.27.x（2026-10-27 更新；持续高频迭代，2026 年转向"团队级 Agent 平台"）</td>
+            <td>多模型接入（Claude 系列为主力，支持 GPT、Gemini 等） <span class="tag tag--ext">调用底座</span></td>
+            <td>Agent 多文件编辑、Tab 补全质量顶尖、Composer/Agent SDK、语音交互、生态成熟</td>
+            <td>订阅费用高、Token 消耗快、国内访问与付费存在门槛</td>
+            <td>专业开发者日常编码主力、多文件重构、需要顶级模型能力的个人/团队开发</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">Muse Code <span class="tag tag--warn">注明：Meta 旗下</span></td>
+            <td>Meta（美国）</td>
+            <td>2026-08-06 发布（初期定价约 $5/月）</td>
+            <td>自研底座 Muse Spark 1.2（当前闭源） <span class="tag tag--self">自研</span></td>
+            <td>终端原生编程智能体、AST 级代码关系图谱、主打大型代码库、价格极低</td>
+            <td>发布仅数月生态稚嫩、以终端为主 IDE 集成有限、基座闭源</td>
+            <td>大型存量代码库的规划-修改-验证闭环、成本敏感的长尾编程任务</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">DeepSeek Harness <span class="tag tag--default">开源 Agent 框架</span></td>
+            <td>DeepSeek（杭州深度求索，中国）</td>
+            <td>v0.2.2-rc.2（2026-11-11，GitHub Releases；仍处公开预览/候选版阶段，快速迭代中）</td>
+            <td>开源自研框架 <span class="tag tag--self">自研框架</span>；模型无关设计，默认调用 DeepSeek-V4 系列，可通过 adapter 接入任意模型</td>
+            <td>MIT 开源、基于 Cordis"一切皆插件"的可组合扩展（文档/表格/写码/定时任务插件）、append-only 日志完整可追溯、4 种运行模式、Git Worktree 变更审查与 SubAgent 协作</td>
+            <td>仍处候选版（rc）阶段，API 变动频繁、破坏性变更需自行跟进；生态刚起步、插件市场尚小</td>
+            <td>开发者自建 Agent 工作流（处理文档、分析表格、编写代码、定时任务）、需要审计日志的自动化场景、DeepSeek 生态用户</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 板块三：AI 名词释义 -->
+  <section class="board">
+    <h2>板块三：AI 名词释义 <span class="badge">概念词典</span></h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:140px">名词</th><th>释义</th><th>通俗类比</th><th>工程/AI 场景说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-search-item>
+            <td class="name">提示词<br>（Prompt）</td>
+            <td>用户输入给模型的指令性文本，是引导模型输出行为与内容格式的"输入接口"</td>
+            <td>给新入职员工的任务说明书：写清楚目标、约束和验收标准，干出来的活才靠谱</td>
+            <td>工程上分系统提示词（System Prompt，定人设与规则）与用户提示词；提示工程（Prompt Engineering）研究如何用措辞、示例（Few-shot）、角色设定提升输出质量；是 Agent 工具调用的入口</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">上下文<br>（Context）</td>
+            <td>模型在当前请求中"可见"的全部信息：系统提示 + 历史对话 + 检索到的资料 + 工具返回结果等</td>
+            <td>会议室里所有与会者手头的资料和会议纪要：桌上有什么，大家就只能基于什么讨论</td>
+            <td>受上下文窗口（Context Window，以 Token 计）硬限制；"上下文工程"（如 RAG 检索增强、上下文压缩、Qoder 的 Repo Wiki 增强上下文）决定 Agent 能否"看见"足够多的代码；上下文污染/超长会导致模型"遗忘"或答非所问</td>
+          </tr>
+          <tr data-search-item>
+            <td class="name">基座<br>（Base Model）</td>
+            <td>经大规模预训练得到的基础大模型，是上层一切能力（微调、对齐、应用）的"底座"；产品语境下也泛指某应用底层实际调用的原生模型</td>
+            <td>汽车发动机：整车厂（应用产品）可以不自造发动机，直接采购现成发动机（基座）装车</td>
+            <td>狭义指未做指令微调/RLHF 的预训练模型（base model），与 Instruct/Chat 版本相对；工程选型时须区分"自研基座"与"调用他人基座"（如 Cursor 调用 Claude、WorkBuddy 调用混元），这直接决定成本结构、数据主权与能力天花板</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 物理 AI（Physical AI）独立章节 -->
+  <section class="board" id="physical-ai">
+    <h2>物理 AI（Physical AI）<span class="badge">独立章节</span></h2>
+    <p class="subtitle">让智能体理解、交互并控制真实物理世界：机器人操作、灵巧手、触觉、动力学建模与仿真到现实（Sim2Real）迁移。</p>
+
+    <ul class="pai-toc">
+      <li><a href="#pai-def">核心定义</a></li>
+      <li><a href="#pai-stack">关键技术栈</a></li>
+      <li><a href="#pai-supermimic">SuperMimic 详解</a></li>
+      <li><a href="#pai-projects">代表性项目/团队</a></li>
+      <li><a href="#pai-status">现状·瓶颈·路线</a></li>
+    </ul>
+
+    <h3 class="h3" id="pai-def">核心定义</h3>
+    <figure class="figure">
+      <svg viewBox="0 0 760 232" role="img" aria-labelledby="fig1-t">
+        <title id="fig1-t">物理 AI 的感知、推理、规划、动作闭环</title>
+        <defs>
+          <marker id="fig1-arw" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 Z" class="fig-arrow"></path>
+          </marker>
+          <marker id="fig1-arw-a" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 Z" class="fig-arrow--accent"></path>
+          </marker>
+        </defs>
+
+        <g>
+          <rect class="fig-node fig-node--accent" x="24" y="34" width="156" height="68" rx="12"></rect>
+          <text class="fig-text" x="102" y="62" text-anchor="middle">感知 Perception</text>
+          <text class="fig-text--muted" x="102" y="82" text-anchor="middle">视觉 · 深度 · 触觉 · 本体状态</text>
+        </g>
+        <g>
+          <rect class="fig-node" x="204" y="34" width="156" height="68" rx="12"></rect>
+          <text class="fig-text" x="282" y="62" text-anchor="middle">推理 Reasoning</text>
+          <text class="fig-text--muted" x="282" y="82" text-anchor="middle">世界模型 · 物理常识 · 场景理解</text>
+        </g>
+        <g>
+          <rect class="fig-node" x="384" y="34" width="156" height="68" rx="12"></rect>
+          <text class="fig-text" x="462" y="62" text-anchor="middle">规划 Planning</text>
+          <text class="fig-text--muted" x="462" y="82" text-anchor="middle">轨迹优化 · 技能选择 · 全身协调</text>
+        </g>
+        <g>
+          <rect class="fig-node" x="564" y="34" width="156" height="68" rx="12"></rect>
+          <text class="fig-text" x="642" y="62" text-anchor="middle">动作 Action</text>
+          <text class="fig-text--muted" x="642" y="82" text-anchor="middle">关节设定点 · 末端指令 · 力控</text>
+        </g>
+
+        <path class="fig-line" d="M180 68 H198" marker-end="url(#fig1-arw)"></path>
+        <path class="fig-line" d="M360 68 H378" marker-end="url(#fig1-arw)"></path>
+        <path class="fig-line" d="M540 68 H558" marker-end="url(#fig1-arw)"></path>
+
+        <path class="fig-line--accent" d="M642 102 V172 H102 V108" marker-end="url(#fig1-arw-a)"></path>
+        <text class="fig-label" x="372" y="162" text-anchor="middle">环境反馈：物理约束 · 接触与摩擦 · 传感延迟 · 失败代价</text>
+      </svg>
+      <figcaption><b>图 1</b> 物理 AI 的闭环：感知 → 推理 → 规划 → 动作 → 环境反馈。与纯文本模型不同，这里的"输出"是会改变世界的物理作用。</figcaption>
+    </figure>
+    <div class="card" data-search-item>
+      <h4>什么是物理 AI</h4>
+      <p><strong>核心定义：</strong>物理 AI（Physical AI）指能够理解、推理并与真实物理世界交互的 AI 系统，典型载体是机器人、自动驾驶汽车与各类自主机器。它把大模型的语言/视觉智能与真实世界的感知、动力学和操控能力结合，形成"感知 → 推理 → 规划 → 动作"的闭环。</p>
+      <p><strong>核心目标：</strong>让智能体在真实物理世界中完成理解（感知场景与物体）、交互（灵巧操作、触觉反馈）与控制（全身运动、力控）——覆盖机器人操作（Manipulation）、触觉感知、动力学建模，以及从仿真到现实的迁移（Sim2Real）。</p>
+    </div>
+    <div class="card" data-search-item>
+      <h4>与纯文本大模型的区别</h4>
+      <p>纯文本大模型在 Token 空间里"说"，物理 AI 在真实世界里"做"：输出从文本变为连续的动作/关节指令；必须处理真实物理约束（重力、接触、摩擦、延迟）；错误不再是"答错"，而是现实中的碰撞与损坏；数据从互联网文本变为真机演示、遥操作与仿真数据；评估从基准分数变为真实任务成功率。</p>
+    </div>
+
+    <h3 class="h3" id="pai-stack">关键技术栈</h3>
+    <figure class="figure">
+      <svg viewBox="0 0 760 300" role="img" aria-labelledby="fig2-t">
+        <title id="fig2-t">物理 AI 技术栈的四层结构</title>
+        <defs>
+          <marker id="fig2-arw" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
+            <path d="M0 0 L10 5 L0 10 Z" class="fig-arrow"></path>
+          </marker>
+        </defs>
+
+        <text class="fig-text" x="24" y="44">01 数据层</text>
+        <text class="fig-text--muted" x="24" y="61">Data</text>
+        <rect class="fig-node" x="132" y="16" width="600" height="58" rx="10"></rect>
+        <text class="fig-text" x="150" y="44">真机演示 · 遥操作 · 动作捕捉 · 仿真合成数据</text>
+        <text class="fig-text--muted" x="150" y="62">数据决定上限：真实数据稀缺，合成数据用于规模化补齐</text>
+
+        <path class="fig-line" d="M432 74 V80" marker-end="url(#fig2-arw)"></path>
+
+        <text class="fig-text" x="24" y="110">02 仿真层</text>
+        <text class="fig-text--muted" x="24" y="127">Simulation</text>
+        <rect class="fig-node" x="132" y="82" width="600" height="58" rx="10"></rect>
+        <text class="fig-text" x="150" y="110">Isaac Sim / Isaac Lab · MuJoCo · SAPIEN · Genesis</text>
+        <text class="fig-text--muted" x="150" y="128">低成本试错与可微物理，是 Sim2Real 的前提</text>
+
+        <path class="fig-line" d="M432 140 V146" marker-end="url(#fig2-arw)"></path>
+
+        <text class="fig-text" x="24" y="176">03 策略层</text>
+        <text class="fig-text--muted" x="24" y="193">Policy</text>
+        <rect class="fig-node fig-node--accent" x="132" y="148" width="600" height="58" rx="10"></rect>
+        <text class="fig-text" x="150" y="176">VLA 模型 · 扩散策略 · 模仿学习 · 全身控制 · 强化学习</text>
+        <text class="fig-text--muted" x="150" y="194">把"看懂"转成关节/末端指令，是当前竞争焦点</text>
+
+        <path class="fig-line" d="M432 206 V212" marker-end="url(#fig2-arw)"></path>
+
+        <text class="fig-text" x="24" y="242">04 部署层</text>
+        <text class="fig-text--muted" x="24" y="259">Deployment</text>
+        <rect class="fig-node" x="132" y="214" width="600" height="58" rx="10"></rect>
+        <text class="fig-text" x="150" y="242">低刚度 PD 控制 · Sim2Real 迁移 · 实时推理与安全兜底</text>
+        <text class="fig-text--muted" x="150" y="260">工程细节决定"能不能上真机"，而非只看基准分数</text>
+      </svg>
+      <figcaption><b>图 2</b> 物理 AI 技术栈：数据 → 仿真 → 策略 → 部署。越往下越靠近硬件，越往上越依赖数据规模。</figcaption>
+    </figure>
+    <div class="stack-grid">
+      <div class="stack-item" data-search-item><h4>仿真环境</h4><p>Isaac Sim / Isaac Lab、MuJoCo、SAPIEN、Genesis 等，在虚拟世界低成本试错并生成海量训练数据。</p></div>
+      <div class="stack-item" data-search-item><h4>动作策略</h4><p>端到端视觉-语言-动作（VLA）模型、扩散策略（Diffusion Policy）、全身控制策略，直接输出关节/末端指令。</p></div>
+      <div class="stack-item" data-search-item><h4>模仿学习</h4><p>从人类演示/遥操作数据做行为克隆（BC、ACT、robomimic 等），是当前真机数据利用的主流范式。</p></div>
+      <div class="stack-item" data-search-item><h4>强化学习</h4><p>PPO、AMP 等在仿真中大规模试错；SuperMimic 等进一步用可微世界模型 + BPTT 提升样本效率。</p></div>
+      <div class="stack-item" data-search-item><h4>视觉-触觉多模态</h4><p>融合相机、深度、力/触觉传感器信号，支撑精细灵巧操作。</p></div>
+      <div class="stack-item" data-search-item><h4>动力学建模</h4><p>刚体/软体动力学、接触模型与可微物理；世界模型学习环境动力学用于规划与训练。</p></div>
+      <div class="stack-item" data-search-item><h4>域自适应 / Sim2Real</h4><p>域随机化、系统辨识、动力学在线校准，缩小仿真与真机之间的分布差距。</p></div>
+      <div class="stack-item" data-search-item><h4>轨迹优化</h4><p>MPC、iLQR/DDP、全身运动规划，生成可行且最优的参考轨迹与接触序列。</p></div>
+    </div>
+
+    <h3 class="h3" id="pai-supermimic">SuperMimic 详解</h3>
+    <figure class="figure">
+      <svg viewBox="0 0 760 256" role="img" aria-labelledby="fig3-t">
+        <title id="fig3-t">SuperMimic 的训练与部署流程</title>
+        <defs>
+          <marker id="fig3-arw" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 Z" class="fig-arrow"></path>
+          </marker>
+        </defs>
+
+        <text class="fig-label" x="82" y="26" text-anchor="middle">1 输入</text>
+        <text class="fig-label" x="230" y="26" text-anchor="middle">2 动力学</text>
+        <text class="fig-label" x="378" y="26" text-anchor="middle">3 策略</text>
+        <text class="fig-label" x="526" y="26" text-anchor="middle">4 执行</text>
+        <text class="fig-label" x="674" y="26" text-anchor="middle">5 部署</text>
+
+        <rect class="fig-node" x="14" y="40" width="136" height="84" rx="11"></rect>
+        <text class="fig-text" x="82" y="70" text-anchor="middle">参考轨迹</text>
+        <text class="fig-text--muted" x="82" y="89" text-anchor="middle">人体动捕 / 动作库</text>
+        <text class="fig-text--muted" x="82" y="105" text-anchor="middle">BONES-SEED</text>
+
+        <rect class="fig-node fig-node--accent" x="162" y="40" width="136" height="84" rx="11"></rect>
+        <text class="fig-text" x="230" y="68" text-anchor="middle">可微世界模型</text>
+        <text class="fig-text--muted" x="230" y="87" text-anchor="middle">近似机器人动力学</text>
+        <text class="fig-text--muted" x="230" y="103" text-anchor="middle">单张 H100 可训练</text>
+
+        <rect class="fig-node" x="310" y="40" width="136" height="84" rx="11"></rect>
+        <text class="fig-text" x="378" y="68" text-anchor="middle">关节策略</text>
+        <text class="fig-text--muted" x="378" y="87" text-anchor="middle">Actor-Critic</text>
+        <text class="fig-text--muted" x="378" y="103" text-anchor="middle">短时域 BPTT</text>
+
+        <rect class="fig-node" x="458" y="40" width="136" height="84" rx="11"></rect>
+        <text class="fig-text" x="526" y="68" text-anchor="middle">低刚度 PD</text>
+        <text class="fig-text--muted" x="526" y="87" text-anchor="middle">吸收模型残差</text>
+        <text class="fig-text--muted" x="526" y="103" text-anchor="middle">容忍仿真差异</text>
+
+        <rect class="fig-node" x="606" y="40" width="136" height="84" rx="11"></rect>
+        <text class="fig-text" x="674" y="68" text-anchor="middle">真机</text>
+        <text class="fig-text--muted" x="674" y="87" text-anchor="middle">Unitree G1</text>
+        <text class="fig-text--muted" x="674" y="103" text-anchor="middle">直接迁移</text>
+
+        <path class="fig-line" d="M150 82 H156" marker-end="url(#fig3-arw)"></path>
+        <path class="fig-line" d="M298 82 H304" marker-end="url(#fig3-arw)"></path>
+        <path class="fig-line" d="M446 82 H452" marker-end="url(#fig3-arw)"></path>
+        <path class="fig-line" d="M594 82 H600" marker-end="url(#fig3-arw)"></path>
+
+        <path class="fig-dash" d="M162 148 V158 H594 V148"></path>
+        <text class="fig-label" x="378" y="176" text-anchor="middle">训练内循环：世界模型与真实仿真器持续互相对齐</text>
+        <text class="fig-text--muted" x="378" y="204" text-anchor="middle">参考轨迹驱动姿态/轨迹级模仿；世界模型可复用于 RL 目标优化</text>
+        <text class="fig-text--muted" x="378" y="222" text-anchor="middle">部署无需真机大规模微调，策略上限受世界模型精度制约</text>
+      </svg>
+      <figcaption><b>图 3</b> SuperMimic 流程：参考轨迹 → 可微世界模型 → 关节策略 → 低刚度 PD → Unitree G1 真机。</figcaption>
+    </figure>
+    <div class="card" data-search-item>
+      <h4>项目介绍</h4>
+      <p>SuperMimic（CoRL 2026，arXiv:2610.28480，论文标题 "Scaling Humanoid Whole-Body Control with One Differentiable World Model"），由伯克利团队（Qiayuan Liao 等）提出：用单个可微世界模型 + 单张 H100 GPU 即可训练人形机器人全身控制策略。<span class="tag tag--warn">同名区分</span> 注意与 arXiv:2509.22205 的 Super-Mimic（基于人类视频的长程操作分层模仿框架）不是同一工作。</p>
+    </div>
+    <div class="card" data-search-item>
+      <h4>核心思路：如何利用人类演示与姿态/轨迹模仿</h4>
+      <p>SuperMimic 做的是<strong>目标条件下的全身动作模仿</strong>：给定一段由人体动作捕捉（mocap）或动作库提供的参考轨迹，策略需要驱动人形机器人复现对应的全身姿态与运动。它并非"看视频直接学"，而是先在仿真中训练一个<strong>可微世界模型</strong>近似机器人动力学，再让策略沿参考轨迹在该模型中"试错"——以短时域 BPTT（时间反向传播）训练 Actor-Critic，策略输出各关节设定点（joint setpoints）逐段跟踪参考姿态，实现姿态/轨迹级模仿。同一世界模型还可复用：直接以任务奖励用 RL 优化目标编码器。</p>
+    </div>
+    <div class="card" data-search-item>
+      <h4>如何打通仿真与真机（Sim2Real）</h4>
+      <p>训练全程在仿真中进行：在真实仿真器中持续采样、迭代更新可微动力学模型，使世界模型与仿真环境互相对齐；部署时把策略输出的关节目标交给<strong>低刚度 PD 控制器</strong>执行——低增益控制器天然容忍模型误差，吸收仿真与真机的动力学残差，从而实现从仿真到 Unitree G1 真机的直接迁移，无需真机大规模微调。</p>
+    </div>
+    <div class="card" data-search-item>
+      <h4>能力与擅长任务</h4>
+      <p>擅长<strong>全身动态运动类任务</strong>：翻滚、跳跃、全身协调动作，以及需要全身参与的动态操作（而非桌面双臂精细抓取）。核心能力：目标条件全身模仿、单卡高效训练、世界模型复用。</p>
+    </div>
+    <div class="card" data-search-item>
+      <h4>数据集 / 优缺点 / 最新进展</h4>
+      <p><strong>数据集：</strong>参考轨迹来自人体动作捕捉与动作库（BONES-SEED 数据）。</p>
+      <p><strong>优点：</strong>训练效率极高（单 H100 可扩展全身控制）；世界模型可复用于 RL 目标优化；Sim2Real 迁移简洁（低刚度 PD 兜底）。</p>
+      <p><strong>缺点：</strong>代码未完全开源；当前验证集中于 Unitree G1 真机；策略上限受世界模型精度制约。</p>
+      <p><strong>最新进展：</strong>CoRL 2026 接收（2026-10 公布），引发"单卡训练人形机器人"讨论；后续工作（如 arXiv:2610.41654）延续可微世界模型路线。</p>
+    </div>
+
+    <h3 class="h3" id="pai-projects">代表性项目 / 团队</h3>
+    <div class="card" data-search-item>
+      <h4>RoboTwin 2.0（港中大（深圳）李镇团队，ICML 2026）</h4>
+      <p>开源双臂操作数据生成器与基准：以强域随机化规模化合成可迁移到真机的操作数据，并构建评测基准；对比 π0、OpenVLA-OFT 等基线，推动 VLA 模型的标准化评测。</p>
+    </div>
+    <div class="card" data-search-item>
+      <h4>DexMV（ECCV 2022，多指灵巧手）</h4>
+      <p>从人类手部视频学习灵巧操作的模仿学习框架：构建视频-仿真配对数据，将人手运动重定向（retargeting）到多指灵巧手，解决灵巧操作数据采集难的问题，是"人类演示 → 灵巧手"路线的早期代表。</p>
+    </div>
+    <div class="card" data-search-item>
+      <h4>OpenVLA / OpenVLA-OFT（斯坦福、伯克利等）</h4>
+      <p>开源 7B 视觉-语言-动作（VLA）模型，在 Open X-Embodiment 大规模真实机器人数据集上训练，支持 LoRA 等低成本微调，是当前开源机器人策略的事实基准之一。</p>
+    </div>
+    <div class="card" data-search-item>
+      <h4>Google Robotics / Google DeepMind Robotics</h4>
+      <p>RT-1 → RT-2（VLM 直接输出机器人动作，把网络知识迁移到未见指令）→ Gemini Robotics（2025）→ <strong>Gemini Robotics 2</strong>（2026-07-30：全身智能、灵巧操作、多机器人协同）与 <strong>Gemini Robotics ER 2</strong>（具身推理：视频理解、工具编排、多机器人协作），代表"大模型 → 具身"的工程化路线。</p>
+    </div>
+    <div class="card" data-search-item>
+      <h4>NVIDIA（平台 / 生态）</h4>
+      <p>Isaac 仿真框架 + Cosmos 3 世界基础模型（统一合成世界生成、视觉推理与动作模拟）+ Isaac GR00T N1.7（2026-03 开放抢先体验与商业授权，主打通用机器人技能与灵巧控制），定位物理 AI 的基础设施。</p>
+    </div>
+
+    <h3 class="h3" id="pai-status">当前发展现状、瓶颈、落地方向与未来路线</h3>
+    <div class="card" data-search-item>
+      <h4>发展现状（截至 2026-11）</h4>
+      <p>世界模型成为新焦点（Cosmos 3 统一生成/推理/动作模拟）；VLA 与全身控制旗舰落地（Gemini Robotics 2）；训练成本大幅下降（SuperMimic 单卡训人形全身控制）；开源生态成熟（RoboTwin 2.0、OpenVLA、LeRobot）；人形机器人进入"量产就绪"阶段（GR00T N1.7 开放商业授权）。</p>
+    </div>
+    <div class="card" data-search-item>
+      <h4>主要瓶颈</h4>
+      <p>① 真实数据稀缺且昂贵（如 EgoSmith 数据管线 9.6K 小时规模，其世界模型增强 VLA 在 40+ 任务上成功率约 75%，与人类仍有差距）；② Sim2Real 差距尚未根治（域随机化只是缓解）；③ 长程、接触密集任务成功率低；④ 全身灵巧操作受硬件自由度与触觉传感器限制；⑤ 评测基准与指标不统一。</p>
+    </div>
+    <div class="card" data-search-item>
+      <h4>落地方向</h4>
+      <p>制造业分拣与装配、仓储物流（双臂/人形）、服务与家庭机器人、多机器人协作（ER 2 方向）、自动驾驶与自主机器（广义物理 AI）。</p>
+    </div>
+    <div class="card" data-search-item>
+      <h4>未来路线</h4>
+      <p>世界模型 + 合成数据闭环突破数据墙；端到端 VLA 规模化；从桌面操作走向全身灵巧控制；具身推理（ER）从研究转向工程化；开源权重与商业授权并行，加速量产落地。</p>
+    </div>
+  </section>
+
+  <div class="note">
+    备注：本文档信息更新时间：2026-11-12；大模型与工具版本迭代速度极快，本材料仅用于个人学习参考，不构成商业选型建议。
+  </div>
+
+  <section class="sources sources--cols">
+    <h2>主要信息来源</h2>
+    <ul>
+      <li><a href="https://platform.claude.com/docs/zh-CN/release-notes/overview" target="_blank" rel="noopener">Claude Platform 发布说明（Anthropic）</a></li>
+      <li><a href="https://finance.sina.com.cn/stock/t/2026-07-25/doc-iniixwvz1461054.shtml" target="_blank" rel="noopener">Claude Opus 5 正式发布报道</a></li>
+      <li><a href="https://openai.com/zh-Hans-CN/products/release-notes/" target="_blank" rel="noopener">OpenAI 发布说明</a></li>
+      <li><a href="https://openai.com/zh-Hans-CN/index/introducing-gpt-5-5/" target="_blank" rel="noopener">GPT-5.5 发布页</a></li>
+      <li><a href="https://www.zhihu.com/tardis/zm/art/14903006525" target="_blank" rel="noopener">全球 AI 模型发布时间线</a></li>
+      <li><a href="https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/model-versions?hl=zh-cn" target="_blank" rel="noopener">Gemini Enterprise 模型版本与生命周期</a></li>
+      <li><a href="https://kuku.baidu.com/landing/tscp_doc/8c128452e8f4f07d1e2ca8ed55cf5690" target="_blank" rel="noopener">Gemini 最新版本解析</a></li>
+      <li><a href="https://www.tmtpost.com/7995549.html" target="_blank" rel="noopener">谷歌 I/O 报道（Gemini 3.5）</a></li>
+      <li><a href="https://api-docs.deepseek.com/zh-cn/news/news261017" target="_blank" rel="noopener">DeepSeek V4.1 Flash 更新公告</a></li>
+      <li><a href="https://www.deepseek.com/harness/" target="_blank" rel="noopener">DeepSeek Harness 官方页面</a></li>
+      <li><a href="https://github.com/deepseek-ai/deepseek-harness/releases" target="_blank" rel="noopener">DeepSeek Harness GitHub Releases</a></li>
+      <li><a href="https://a2aprotocol.ai/insights/deepseek-harness-2026-guide" target="_blank" rel="noopener">DeepSeek Harness 架构解析（A2A Protocol）</a></li>
+      <li><a href="https://api-docs.deepseek.com/zh-cn/news/news260910" target="_blank" rel="noopener">DeepSeek V4.1 Flash 发布</a></li>
+      <li><a href="https://api-docs.deepseek.com/zh-cn/news/news260813/" target="_blank" rel="noopener">DeepSeek V4 Pro 正式版</a></li>
+      <li><a href="https://www.moonshot.cn/" target="_blank" rel="noopener">月之暗面官网（K3.1 Pro）</a></li>
+      <li><a href="https://www.kimi.com/" target="_blank" rel="noopener">Kimi 官网</a></li>
+      <li><a href="https://www.kimi.com/code/zh" target="_blank" rel="noopener">Kimi Code</a></li>
+      <li><a href="https://www.cls.cn/detail/2446805" target="_blank" rel="noopener">Meta Muse Code 发布报道</a></li>
+      <li><a href="https://www.tmtpost.com/agent/ai-article?id=20181" target="_blank" rel="noopener">Muse Code 深度分析</a></li>
+      <li><a href="https://ai-bot.cn/muse-code/" target="_blank" rel="noopener">Muse Code 产品介绍</a></li>
+      <li><a href="https://m.ofweek.com/ai/2026-07/ART-201718-8110-30694003.html" target="_blank" rel="noopener">GPT-5.6 上线与 Codex 客户端退场</a></li>
+      <li><a href="https://openai.com/zh-Hans-CN/index/devday-2026-recap/" target="_blank" rel="noopener">OpenAI DevDay 2026 回顾</a></li>
+      <li><a href="https://www.workbuddy.cn/" target="_blank" rel="noopener">WorkBuddy 官网</a></li>
+      <li><a href="https://baike.baidu.com/item/WorkBuddy/67362053" target="_blank" rel="noopener">WorkBuddy 百度百科</a></li>
+      <li><a href="https://www.workbuddy.ai/docs/zh/enterprise/" target="_blank" rel="noopener">WorkBuddy Enterprise 文档</a></li>
+      <li><a href="https://www.trae.cn/" target="_blank" rel="noopener">TRAE 官网</a></li>
+      <li><a href="https://www.geekpark.net/news/358722" target="_blank" rel="noopener">TRAE 年度报告</a></li>
+      <li><a href="https://my.oschina.net/u/9487999/blog/19667700" target="_blank" rel="noopener">TRAE SOLO 2026 解析</a></li>
+      <li><a href="https://cursor.com/cn/changelog" target="_blank" rel="noopener">Cursor 更新日志</a></li>
+      <li><a href="https://sj.qq.com/appdetail/com.anysphere.pcapp.cursoruser" target="_blank" rel="noopener">Cursor 应用版本信息</a></li>
+      <li><a href="https://cj.sina.cn/articles/view/7524305485/1c07bca4d00101hcoi" target="_blank" rel="noopener">通义灵码更名 Qoder 报道</a></li>
+      <li><a href="https://qoder.com/zh/about-us" target="_blank" rel="noopener">Qoder 关于我们</a></li>
+      <li><a href="https://x.ai/news" target="_blank" rel="noopener">xAI News（Grok 4.6 旗舰与 GitHub Copilot 接入）</a></li>
+      <li><a href="https://zh.wikipedia.org/wiki/Grok" target="_blank" rel="noopener">Grok 维基百科</a></li>
+      <li><a href="https://docs.bigmodel.cn/cn/guide/models/text/glm-5.3" target="_blank" rel="noopener">GLM-5.3 智谱官方文档</a></li>
+      <li><a href="https://baike.baidu.com/item/%E6%99%BA%E8%B0%B1GLM-5.2/67958980" target="_blank" rel="noopener">智谱 GLM-5.2 百度百科</a></li>
+      <li><a href="https://m.caixin.com/m/2026-02-12/102413861.html" target="_blank" rel="noopener">财新：智谱发布开源基座模型 GLM-5</a></li>
+      <li><a href="https://www.aliyun.com/product/qoder" target="_blank" rel="noopener">阿里云 Qoder 产品页</a></li>
+      <li><a href="https://arxiv.org/abs/2610.28480" target="_blank" rel="noopener">SuperMimic 论文（arXiv:2610.28480，CoRL 2026）</a></li>
+      <li><a href="https://m.leiphone.com/category/private/gEHTVABybytHigaC.html" target="_blank" rel="noopener">SuperMimic 解读（雷峰网）</a></li>
+      <li><a href="https://blogs.nvidia.cn/blog/nvidia-and-global-robotics-leaders-take-physical-ai-to-the-real-world/" target="_blank" rel="noopener">NVIDIA 物理 AI 官方博客（Cosmos 3 / GR00T N1.7）</a></li>
+      <li><a href="https://www.nvidia.cn/ai/cosmos/" target="_blank" rel="noopener">NVIDIA Cosmos 世界基础模型</a></li>
+      <li><a href="https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/" target="_blank" rel="noopener">Gemini Robotics 2 官方博客</a></li>
+      <li><a href="https://blog.google/innovation-and-ai/models-and-research/google-deepmind/gemini-robotics-er-2/" target="_blank" rel="noopener">Gemini Robotics ER 2 官方博客</a></li>
+      <li><a href="https://robotwin-platform.github.io/doc/index.html" target="_blank" rel="noopener">RoboTwin 2.0 官方文档（ICML 2026）</a></li>
+    </ul>
+  </section>
+
+  <section class="sources">
+    <h2>延伸阅读</h2>
+    <p style="margin:0 0 10px; font-size:13px; color:var(--muted)">《Agentic Design Patterns》（智能体设计模式）— Antonio Gulli（Google 杰出工程师）著，系统讲解提示链、路由、多智能体协作、MCP、RAG 等 21 种智能体设计模式（21 个核心章节 + 7 个附录）。</p>
+    <ul>
+      <li><a href="Agentic设计模式读书笔记.html" target="_blank" rel="noopener">本站读书笔记（21 章速览）</a></li>
+      <li><a href="https://docs.google.com/document/d/1rsaK53T3Lg5KoGwvf8ukOUvbELRtH-V0LnOIFDxBryE/preview" target="_blank" rel="noopener">英文原版（Google Docs，免费全文）</a></li>
+      <li><a href="https://jimmysong.io/zh/book/agentic-design-patterns/" target="_blank" rel="noopener">中文翻译在线阅读（Jimmy Song 社区翻译，国内可访问）</a></li>
+      <li><a href="https://github.com/evoiz/Agentic-Design-Patterns" target="_blank" rel="noopener">配套代码仓库（GitHub）</a></li>
+    </ul>
+  </section>
+    <footer class="site-foot">本文档信息更新时间：2026-11-12 · 仅用于个人学习参考，不构成商业选型建议</footer>
+  </main>
+</div>
+
+<div class="scrim" data-scrim></div>
+<button class="to-top" type="button" data-to-top aria-label="回到顶部" title="回到顶部"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg></button>
+</body>
+</html>
