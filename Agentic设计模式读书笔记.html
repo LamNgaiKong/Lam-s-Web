@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f4f6f9">
+<meta name="description" content="《Agentic Design Patterns》21 种智能体设计模式与 7 个附录的中文读书笔记速览。">
+<meta property="og:title" content="《Agentic Design Patterns》读书笔记 · AI 知识库">
+<meta property="og:description" content="《Agentic Design Patterns》21 种智能体设计模式与 7 个附录的中文读书笔记速览。">
+<meta property="og:type" content="article">
+<title>《Agentic Design Patterns》读书笔记 · AI 知识库</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Cpath d='M16 6.5l2.6 6.4 6.4 2.6-6.4 2.6L16 24.5l-2.6-6.4L7 15.5l6.4-2.6z' fill='%23fff'/%3E%3C/svg%3E">
+<script>
+  // 尽早设定主题，避免深色模式闪白
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('ai-kb-theme'); } catch (e) {}
+    if (!t) {
+      t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js" defer></script>
+</head>
+<body data-toc-mode="notes">
+<div class="progress" data-progress></div>
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="AI大模型与编程助手整理.html">
+      <span class="brand__mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.6l2.3 5.7 5.7 2.3-5.7 2.3L12 18.6l-2.3-5.7L4 10.6l5.7-2.3z" fill="currentColor"/></svg></span>
+      <span class="brand__text">AI 知识库<small>DSH AI Up</small></span>
+    </a>
+    <button class="icon-btn icon-btn--ghost nav-toggle" type="button" data-nav-toggle
+            aria-expanded="false" aria-controls="sidebar" aria-label="打开目录"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="nav" aria-label="站点导航">
+        <a href="AI大模型与编程助手整理.html">大模型与编程助手</a>
+        <a href="Agentic设计模式读书笔记.html" aria-current="page">Agentic 设计模式笔记</a>
+    </nav>
+    <div class="topbar__tools">
+      <form class="search" role="search" data-search-form data-open="false">
+        <svg class="search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" data-search-input autocomplete="off" spellcheck="false"
+               placeholder="搜索：模式 / 章节 / 附录…" aria-label="搜索本页内容">
+        <kbd>/</kbd>
+        <button type="button" class="search__clear" data-search-clear aria-label="清除搜索">&#215;</button>
+      </form>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="切换深色模式"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.9 6.9 0 0 0 11.1 11.1z"/></svg></button>
+      <button class="icon-btn" type="button" data-print aria-label="打印或导出 PDF" title="打印 / 导出 PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 9V3.5h11V9"/><rect x="3.5" y="9" width="17" height="7.5" rx="2"/><path d="M6.5 16.5v4h11v-4"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar" data-sidebar aria-label="本页目录">
+    <p class="sidebar__label">本页目录</p>
+    <ul class="toc" data-toc></ul>
+    <div class="sidebar__foot"><strong>快捷键</strong>：<kbd>/</kbd> 或 <kbd>Ctrl K</kbd> 聚焦搜索，<kbd>Esc</kbd> 清除<br><strong>主题</strong>：右上角切换，首次访问跟随系统设置</div>
+  </aside>
+
+  <main class="content" id="main">
+    <div class="page-head">
+      <a class="backlink" href="AI大模型与编程助手整理.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11.5 5.5 5 12l6.5 6.5"/></svg>返回：AI 大模型与编程助手整理</a>
+      <span class="page-head__eyebrow">读书笔记 · 智能体设计模式</span>
+      <h1>《Agentic Design Patterns》读书笔记</h1>
+      <p class="page-head__lead">Antonio Gulli（Google 杰出工程师）著，21 种智能体设计模式 + 7 个附录的分章速览；基于 Jimmy Song 社区中文翻译提炼，用于快速建立模式地图。</p>
+      <ul class="meta-row">
+        <li class="meta-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></svg>笔记日期 <b>2026-11-11</b></li>
+        <li class="meta-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3.5 8.5 4.5L12 12.5 3.5 8 12 3.5Z"/><path d="m4.5 12.4 7.5 4 7.5-4"/><path d="m4.5 16.6 7.5 4 7.5-4"/></svg>正文章节 <b>21</b> 章</li>
+        <li class="meta-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4.8A2.3 2.3 0 0 1 6.3 2.5H20v17.2H6.3A2.3 2.3 0 0 0 4 22V4.8Z"/><path d="M4 19.7A2.3 2.3 0 0 1 6.3 17.4H20"/></svg>附录 <b>7</b> 篇</li>
+        <li class="meta-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1 0l2.4-2.4a5 5 0 0 0-7.1-7.1L11 4.9"/><path d="M14 11a5 5 0 0 0-7.1 0L4.5 13.4a5 5 0 0 0 7.1 7.1L13 19.1"/></svg>参考来源 <b>3</b> 条</li>
+      </ul>
+    </div>
+    <div class="search-status" data-search-status></div>
+  <div class="board">
+    <h2 id="overview">全书概述</h2>
+    <p>本书是智能体（Agent）设计模式的实战指南，系统讲解 21 种设计模式 + 7 个附录。配套 GitHub 仓库提供全书 PDF（424 页）与各章 Notebook 供动手学习，作者版税全部捐赠给 Save the Children。</p>
+    <p>全书结构（四部分）：</p>
+    <ul>
+      <li><strong>核心模式</strong>（第 1–7 章）：提示链、路由、并行化、反思、工具使用、规划、多智能体协作</li>
+      <li><strong>进阶模式</strong>（第 8–11 章）：记忆管理、学习与适应、MCP、目标设定与监控</li>
+      <li><strong>生产模式</strong>（第 12–14 章）：异常处理与恢复、人机协同、知识检索（RAG）</li>
+      <li><strong>企业模式</strong>（第 15–21 章）：A2A、资源感知优化、推理技术、护栏与安全、评估与监控、优先级排序、探索与发现</li>
+    </ul>
+  </div>
+
+  <div class="part-title">第一部分 · 核心模式（第 1–7 章）<small>智能体的基础构件</small></div>
+
+  <div class="card" data-search-item>
+    <h3>第1章 提示链 <span class="en">Prompt Chaining</span></h3>
+    <p><strong>核心思想：</strong>将复杂任务分解为顺序执行的子任务，前一步输出作为下一步输入，以提升可靠性。</p>
+    <p><strong>关键要点：</strong>以 JSON 等结构化输出保证精度；各步骤可集成外部工具/API；LangChain/LangGraph 负责状态管理。</p>
+    <p><strong>适用场景：</strong>多步推理、数据抽取与内容生成等单次提示难以胜任的任务。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第2章 路由 <span class="en">Routing</span></h3>
+    <p><strong>核心思想：</strong>为智能体引入条件逻辑，按请求动态选择处理路径。</p>
+    <p><strong>关键要点：</strong>路由器可基于 LLM、嵌入、规则或 ML 模型实现；LangGraph 与 Google ADK 等框架均支持。</p>
+    <p><strong>适用场景：</strong>客服等需按意图分流的场景与复杂工具调度。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第3章 并行化 <span class="en">Parallelization</span></h3>
+    <p><strong>核心思想：</strong>将相互独立的子任务并行执行，显著降低整体延迟。</p>
+    <p><strong>关键要点：</strong>识别无依赖任务并行处理、结束后合并结果；可用 LangChain 的 RunnableParallel 或 Google ADK 的 ParallelAgent 实现。</p>
+    <p><strong>适用场景：</strong>多源研究、并发 API 调用、多模态分析与 A/B 测试。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第4章 反思 <span class="en">Reflection</span></h3>
+    <p><strong>核心思想：</strong>以"生成—批判"反馈循环让智能体自我纠错。</p>
+    <p><strong>关键要点：</strong>采用生产者/批评者双智能体模型；可用 LangChain LCEL 迭代优化或 ADK SequentialAgent 管道实现。</p>
+    <p><strong>适用场景：</strong>对输出质量要求高的任务，需权衡延迟与成本增加。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第5章 工具使用（函数调用）<span class="en">Tool Use</span></h3>
+    <p><strong>核心思想：</strong>通过函数调用将 LLM 与外部系统连接，突破静态训练数据的局限。</p>
+    <p><strong>关键要点：</strong>定义工具后由 LLM 决定调用并生成 JSON 参数，框架执行并将结果回填上下文；支持 LangChain、CrewAI、ADK。</p>
+    <p><strong>适用场景：</strong>实时数据获取、数据库/API 交互、代码执行与系统控制。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第6章 规划 <span class="en">Planning</span></h3>
+    <p><strong>核心思想：</strong>让智能体将复杂目标拆解为可执行步骤，并动态生成与迭代调整计划。</p>
+    <p><strong>关键要点：</strong>CrewAI、Google DeepResearch 与 OpenAI API 展示了规划能力。</p>
+    <p><strong>适用场景：</strong>多步骤工作流自动化。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第7章 多智能体协作 <span class="en">Multi-Agent Collaboration</span></h3>
+    <p><strong>核心思想：</strong>将复杂目标分解给多个专职智能体，通过协作完成整体任务。</p>
+    <p><strong>关键要点：</strong>按顺序、并行或层级结构划分角色；CrewAI 与 Google ADK 支持实现；通信协议保证一致性。</p>
+    <p><strong>适用场景：</strong>复杂研究、软件开发与内容生成等模块化可扩展任务。</p>
+  </div>
+
+  <div class="part-title">第二部分 · 进阶模式（第 8–11 章）<small>状态、学习与协议</small></div>
+
+  <div class="card" data-search-item>
+    <h3>第8章 记忆管理 <span class="en">Memory Management</span></h3>
+    <p><strong>核心思想：</strong>智能体需要短期上下文与长期持久化记忆，才能实现连贯个性化交互。</p>
+    <p><strong>关键要点：</strong>长期记忆靠向量库语义检索；ADK 以 Session/State/MemoryService 管理状态；LangGraph 用缓冲与存储跨会话保存。</p>
+    <p><strong>适用场景：</strong>多轮对话与跨会话个性化服务，可用 Memory Bank 自动抽取事实。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第9章 学习与适应 <span class="en">Learning and Adaptation</span></h3>
+    <p><strong>核心思想：</strong>智能体通过强化学习、LLM 与进化方法自我进化，减少人工干预。</p>
+    <p><strong>关键要点：</strong>涉及强化学习（RL）、SICA 与 AlphaEvolve 等学习与进化途径。</p>
+    <p><strong>适用场景：</strong>需要持续自我改进的动态环境任务。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第10章 模型上下文协议 <span class="en">Model Context Protocol (MCP)</span></h3>
+    <p><strong>核心思想：</strong>MCP 以开放标准与客户端-服务器架构，实现 LLM 与外部系统的标准化交互。</p>
+    <p><strong>关键要点：</strong>支持动态发现工具与资源；优于专有函数调用，促进互操作性；底层 API 需具备确定性特性。</p>
+    <p><strong>适用场景：</strong>复杂智能体系统集成，优先采用以解决多样化集成难题。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第11章 目标设定与监控 <span class="en">Goal Setting and Monitoring</span></h3>
+    <p><strong>核心思想：</strong>为智能体设定目标并监控进度，使其具备方向感与自我评估能力。</p>
+    <p><strong>关键要点：</strong>规划生成子目标步骤；采用"生成-评估-改进"循环；以 LLM 判断目标达成；多智能体分离评审增强客观性。</p>
+    <p><strong>适用场景：</strong>复杂任务的可靠执行，需注意 LLM 幻觉并辅以人工测试（示例用 LangChain 迭代优化 Python 代码）。</p>
+  </div>
+
+  <div class="part-title">第三部分 · 生产模式（第 12–14 章）<small>可靠性、人机协同与知识</small></div>
+
+  <div class="card" data-search-item>
+    <h3>第12章 异常处理与恢复 <span class="en">Exception Handling and Recovery</span></h3>
+    <p><strong>核心思想：</strong>通过检测、处理与恢复机制，构建能应对故障的健壮智能体。</p>
+    <p><strong>关键要点：</strong>错误检测涵盖日志、重试与备用方案；恢复策略包括回滚与自我修正。</p>
+    <p><strong>适用场景：</strong>客服、金融交易等需高可靠性的真实环境部署。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第13章 人类参与环节 <span class="en">Human-in-the-Loop</span></h3>
+    <p><strong>核心思想：</strong>将人类判断融入 AI 流程，确保高风险场景决策合乎伦理与安全。</p>
+    <p><strong>关键要点：</strong>提供 escalate_to_human 等升级工具；以人类反馈驱动学习；复杂任务保留人工监督。</p>
+    <p><strong>适用场景：</strong>金融、法律与内容审核等对准确性、伦理要求高的领域。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第14章 知识检索（RAG）<span class="en">Knowledge Retrieval</span></h3>
+    <p><strong>核心思想：</strong>检索外部数据增强 LLM 回答，提升准确性与时效性。</p>
+    <p><strong>关键要点：</strong>涵盖嵌入、向量数据库、GraphRAG 与 Agent RAG 验证等技术。</p>
+    <p><strong>适用场景：</strong>企业搜索、客户支持与动态知识任务。</p>
+  </div>
+
+  <div class="part-title">第四部分 · 企业模式（第 15–21 章）<small>规模化与治理</small></div>
+
+  <div class="card" data-search-item>
+    <h3>第15章 智能体间通信 <span class="en">Inter-Agent Communication (A2A)</span></h3>
+    <p><strong>核心思想：</strong>A2A 协议实现跨框架智能体间的互操作与协作。</p>
+    <p><strong>关键要点：</strong>以 Agent Card 发现智能体；基于 HTTP/JSON-RPC 通信；支持多模态交互。</p>
+    <p><strong>适用场景：</strong>多智能体编排，如 ADK 与 LangChain 的集成。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第16章 资源感知优化 <span class="en">Resource-Aware Optimization</span></h3>
+    <p><strong>核心思想：</strong>智能体动态管理计算、时间与财务资源，平衡效率与成本。</p>
+    <p><strong>关键要点：</strong>按复杂度路由不同 LLM（如 Flash/Pro）；优雅降级与回退；优化 Token 预算与上下文剪枝；批判智能体重估质量。</p>
+    <p><strong>适用场景：</strong>控制 API 成本、延迟敏感或边缘部署的应用。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第17章 推理技术 <span class="en">Reasoning Techniques</span></h3>
+    <p><strong>核心思想：</strong>显式化推理过程，用增加思考时间换取求解准确性与健壮性。</p>
+    <p><strong>关键要点：</strong>CoT 逐步推理、ToT 多路径探索与回溯纠错；ReAct 以思考-行动-观察循环动态调整；合理分配算力可让小模型媲美大模型。</p>
+    <p><strong>适用场景：</strong>数学求解、代码调试等需多步逻辑与自我纠错的任务。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第18章 护栏与安全模式 <span class="en">Guardrails / Safety Patterns</span></h3>
+    <p><strong>核心思想：</strong>护栏是确保智能体安全合规、防止有害输出的多层防御机制。</p>
+    <p><strong>关键要点：</strong>输入验证与输出过滤（如 CrewAI 的 Pydantic 校验）；用 Gemini Flash 等轻量模型预筛查；最小权限与可观测日志。</p>
+    <p><strong>适用场景：</strong>客服、法律/医疗助手与社交审核等需防有害输出的场景。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第19章 评估与监控 <span class="en">Evaluation and Monitoring</span></h3>
+    <p><strong>核心思想：</strong>通过持续评估与监控保证智能体的性能、效率与合规性。</p>
+    <p><strong>关键要点：</strong>追踪准确率、延迟与 Token 用量；采用 LLM 评审与轨迹分析；ADK 支持自动化测试；以正式合同模式增强问责。</p>
+    <p><strong>适用场景：</strong>生产环境需 A/B 测试与漂移检测，高风险场景用结构化合同明确交付标准。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第20章 优先级排序 <span class="en">Prioritization</span></h3>
+    <p><strong>核心思想：</strong>智能体按紧急性、重要性等标准动态排序任务，聚焦关键目标。</p>
+    <p><strong>关键要点：</strong>评估标准含紧急性与依赖关系；评分体系或 LLM 推理评估；队列/调度逻辑确定顺序；支持动态调整优先级。</p>
+    <p><strong>适用场景：</strong>自动化客服、云资源调度与金融交易等资源有限且目标冲突的场景。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>第21章 探索与发现 <span class="en">Exploration and Discovery</span></h3>
+    <p><strong>核心思想：</strong>智能体主动探索未知领域，生成新知识。</p>
+    <p><strong>关键要点：</strong>Google Co-Scientist 多智能体协作；Agent Laboratory 自动化科研流；模拟人类评审机制。</p>
+    <p><strong>适用场景：</strong>科学研究、市场趋势发现与创意内容生成等开放复杂领域。</p>
+  </div>
+
+  <div class="part-title">附录（A–G）<small>中文翻译站实际收录 7 个附录</small></div>
+
+  <div class="card" data-search-item>
+    <h3>附录A 高级提示工程技术</h3>
+    <p><strong>核心思想：</strong>详解提示工程，通过优化交互提升智能体的推理精度与执行可靠性。</p>
+    <p><strong>关键要点：</strong>涵盖 CoT、ReAct 及结构化输出等高级技术。</p>
+    <p><strong>适用场景：</strong>需要精细控制模型行为的各类智能体应用。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>附录B 智能体交互：从 GUI 到现实世界环境</h3>
+    <p><strong>核心思想：</strong>智能体经 ACI（Agent-Computer Interaction）与 GUI 及物理环境交互，实现复杂自动化。</p>
+    <p><strong>关键要点：</strong>涉及 ChatGPT Operator、Project Mariner 等工具；支持浏览器控制与现实感知；催生 Vibe Coding 开发新范式。</p>
+    <p><strong>适用场景：</strong>桌面/浏览器自动化与真实世界任务执行。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>附录C 智能体框架速览</h3>
+    <p><strong>核心思想：</strong>对比主流智能体框架，指导按需选型。</p>
+    <p><strong>关键要点：</strong>比较 LangChain、LangGraph、ADK 与 Crew.AI 等框架；按线性或循环流程需求选择。</p>
+    <p><strong>适用场景：</strong>项目启动时的框架选型决策。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>附录D 使用 AgentSpace 构建智能体</h3>
+    <p><strong>核心思想：</strong>AgentSpace 以无代码 UI 与知识图谱，帮助企业构建具自主推理能力的智能体。</p>
+    <p><strong>关键要点：</strong>集成多服务、自定义提示词，基于 A2A 协议协作。</p>
+    <p><strong>适用场景：</strong>希望将 AI 嵌入日常工作的非技术团队，提升决策效率与生产力。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>附录E 命令行上的智能体</h3>
+    <p><strong>核心思想：</strong>CLI 智能体把命令行升级为智能工作空间。</p>
+    <p><strong>关键要点：</strong>Claude CLI 擅长复杂重构；Gemini CLI 支持多模态与云端；Aider 面向 Git 驱动编辑；Copilot CLI 集成 GitHub。</p>
+    <p><strong>适用场景：</strong>代码重构、Git 驱动编辑等终端内开发工作流。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>附录F 探秘引擎：智能体推理引擎的内部解析</h3>
+    <p><strong>核心思想：</strong>LLM 作为推理引擎，以结构化"思维链"过程模拟逻辑演绎。</p>
+    <p><strong>关键要点：</strong>解析提示、检索模式，以概率化 token 预测模拟推理。</p>
+    <p><strong>适用场景：</strong>理解智能体内部机制、优化提示与模型选择。</p>
+  </div>
+
+  <div class="card" data-search-item>
+    <h3>附录G 编程智能体</h3>
+    <p><strong>核心思想：</strong>Vibe Coding 开启创新，结构化智能体团队进一步提升生产力。</p>
+    <p><strong>关键要点：</strong>Scribe、Reviewer 等角色分工；以人类为主导编排；精确上下文简报。</p>
+    <p><strong>适用场景：</strong>需要质量把关与人类主导的编程协作场景。</p>
+  </div>
+
+  <div class="note">
+    备注：本笔记基于 Jimmy Song 社区中文翻译（非谷歌官方中文版）提炼，仅供个人学习参考；翻译站索引实际收录 7 个附录（A–G）。信息更新日期：2026-11-11。
+  </div>
+
+  <section class="sources">
+    <h2>原书与参考资料</h2>
+    <ul>
+      <li>英文原版（Google Docs，免费全文）：<a href="https://docs.google.com/document/d/1rsaK53T3Lg5KoGwvf8ukOUvbELRtH-V0LnOIFDxBryE/preview" target="_blank" rel="noopener">https://docs.google.com/document/d/1rsaK53T3Lg5KoGwvf8ukOUvbELRtH-V0LnOIFDxBryE/preview</a></li>
+      <li>中文翻译在线阅读（Jimmy Song，国内可访问）：<a href="https://jimmysong.io/zh/book/agentic-design-patterns/" target="_blank" rel="noopener">https://jimmysong.io/zh/book/agentic-design-patterns/</a></li>
+      <li>配套代码仓库（GitHub，含 424 页 PDF 与各章 Notebook）：<a href="https://github.com/evoiz/Agentic-Design-Patterns" target="_blank" rel="noopener">https://github.com/evoiz/Agentic-Design-Patterns</a></li>
+    </ul>
+  </section>
+    <footer class="site-foot">读书笔记 · 更新日期：2026-11-11 · 仅用于个人学习参考</footer>
+  </main>
+</div>
+
+<div class="scrim" data-scrim></div>
+<button class="to-top" type="button" data-to-top aria-label="回到顶部" title="回到顶部"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg></button>
+</body>
+</html>
