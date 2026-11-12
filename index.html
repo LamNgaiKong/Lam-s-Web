@@ -4,129 +4,187 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#f4f6f9">
-<meta name="description" content="AI 知识库 · DSH AI Up：大模型与编程助手技术整理、Agentic 设计模式读书笔记。">
-<title>AI 知识库 · DSH AI Up</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Cpath d='M16 6.5l2.6 6.4 6.4 2.6-6.4 2.6L16 24.5l-2.6-6.4L7 15.5l6.4-2.6z' fill='%23fff'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#f7f8fa">
+<meta name="description" content="Lam Ngai Kong 的个人主页：AI 学习者、健身爱好者、开发者。技术笔记、训练记录与作品集。">
+<meta property="og:title" content="Lam Ngai Kong · 个人主页">
+<meta property="og:description" content="AI 学习者 / 健身爱好者 / 开发者。">
+<meta property="og:type" content="website">
+<title>Lam Ngai Kong · 个人主页</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ctext x='16' y='22' font-size='16' font-weight='bold' text-anchor='middle' fill='%23fff' font-family='Arial'%3ELK%3C/text%3E%3C/svg%3E">
 <script>
+  // 尽早设定主题，避免深色模式闪白
   (function () {
     var t = null;
-    try { t = localStorage.getItem('ai-kb-theme'); } catch (e) {}
+    try { t = localStorage.getItem('lam-web-theme'); } catch (e) {}
     if (!t) t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', t);
   })();
 </script>
-<style>
-  :root {
-    color-scheme: light;
-    --bg: #f4f6f9; --bg-elev: #ffffff; --text: #171b21; --muted: #5c6470;
-    --border: #e2e6ec; --accent: #2563eb; --accent-strong: #1d4ed8; --accent-soft: #eaf0ff;
-  }
-  [data-theme="dark"] {
-    color-scheme: dark;
-    --bg: #0e1116; --bg-elev: #151a22; --text: #e3e8ef; --muted: #9aa3b2;
-    --border: #262d38; --accent: #7c9cff; --accent-strong: #9db4ff; --accent-soft: #17233c;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-  }
-  .wrap { max-width: 960px; margin: 0 auto; padding: 24px 22px 64px; }
-  .top { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-bottom: 6px; }
-  .icon-btn {
-    display: grid; place-items: center; width: 34px; height: 34px; padding: 0;
-    color: var(--muted); background: var(--bg-elev); border: 1px solid var(--border);
-    border-radius: 9px; cursor: pointer;
-  }
-  .icon-btn:hover { color: var(--text); }
-  .icon-btn svg { width: 16px; height: 16px; }
-  [data-theme="light"] .icon-moon, [data-theme="dark"] .icon-sun { display: none; }
-
-  .hero { text-align: center; padding: 46px 12px 40px; }
-  .brand {
-    display: inline-flex; align-items: center; gap: 12px;
-    font-size: 22px; font-weight: 700; color: var(--text);
-  }
-  .brand__mark {
-    width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
-    background: linear-gradient(145deg, var(--accent), #7c3aed); color: #fff;
-    box-shadow: 0 8px 20px -8px rgba(37, 99, 235, .6);
-  }
-  .brand__mark svg { width: 24px; height: 24px; }
-  .brand small { display: block; font-size: 12px; font-weight: 500; color: var(--muted); letter-spacing: .05em; }
-  .hero h1 { margin: 22px 0 8px; font-size: clamp(26px, 4.5vw, 36px); letter-spacing: -.02em; }
-  .hero p { margin: 0; color: var(--muted); font-size: 15px; max-width: 60ch; margin-inline: auto; }
-
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 26px; }
-  a.card {
-    display: flex; flex-direction: column; gap: 8px;
-    background: var(--bg-elev); border: 1px solid var(--border); border-radius: 14px;
-    padding: 22px 22px 20px; text-decoration: none; color: var(--text);
-    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-  }
-  a.card:hover {
-    transform: translateY(-3px);
-    border-color: var(--accent);
-    box-shadow: 0 14px 30px -18px rgba(37, 99, 235, .35);
-  }
-  .card .tag {
-    align-self: flex-start; font-size: 11.5px; font-weight: 600; color: var(--accent);
-    background: var(--accent-soft); border-radius: 999px; padding: 2px 10px;
-  }
-  .card h2 { margin: 4px 0 0; font-size: 19px; }
-  .card p { margin: 0; color: var(--muted); font-size: 13.5px; }
-  .card .go { margin-top: auto; padding-top: 12px; color: var(--accent); font-size: 13px; font-weight: 600; }
-  footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 40px; }
-  footer a { color: var(--muted); }
-</style>
+<link rel="stylesheet" href="assets/css/main.css">
+<script src="assets/js/main.js" defer></script>
 </head>
-<body>
-<div class="wrap">
-  <div class="top">
-    <button class="icon-btn" type="button" data-theme-toggle aria-label="切换深色模式" title="切换主题">
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg>
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.9 6.9 0 0 0 11.1 11.1z"/></svg>
+<body data-page="home">
+
+<a class="skip-link" href="#main">跳到正文</a>
+
+<!-- ===================== 导航栏（所有页面复用） ===================== -->
+<header class="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__mark">LK</span>
+      <span class="brand__text">Lam Ngai Kong</span>
+    </a>
+
+    <button class="icon-btn nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav" aria-label="打开菜单">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
+
+    <nav class="nav" id="site-nav" data-nav aria-label="站点导航">
+      <a href="index.html" data-nav-link="home">首页</a>
+      <a href="ai-learning/index.html" data-nav-link="ai">AI 学习</a>
+      <a href="fitness/index.html" data-nav-link="fitness">健身</a>
+      <a href="projects/index.html" data-nav-link="projects">项目</a>
+      <a href="resume.pdf" data-nav-link="resume" class="nav__cta" download>简历</a>
+    </nav>
+
+    <div class="topbar__tools">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="切换深浅色主题" title="切换主题">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.9 6.9 0 0 0 11.1 11.1z"/></svg>
+      </button>
+    </div>
   </div>
+</header>
 
-  <header class="hero">
-    <span class="brand">
-      <span class="brand__mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.6l2.3 5.7 5.7 2.3-5.7 2.3L12 18.6l-2.3-5.7L4 10.6l5.7-2.3z" fill="currentColor"/></svg></span>
-      AI 知识库<small>DSH AI UP</small>
-    </span>
-    <h1>大模型 · 编程助手 · 智能体设计模式</h1>
-    <p>一份持续维护的中文速查站：基础大模型版本脉络、AI Agent 与代码助手产品、核心名词释义、物理 AI 专题，以及《Agentic Design Patterns》读书笔记。</p>
-  </header>
+<!-- ===================== 正文 ===================== -->
+<main class="page" id="main">
 
-  <div class="grid">
-    <a class="card" href="AI大模型与编程助手整理.html">
-      <span class="tag">技术整理</span>
-      <h2>AI 大模型与编程助手整理</h2>
-      <p>基础大模型、代码助手产品对比表、AI 名词释义、物理 AI 独立章节（含 3 张示意图）。</p>
-      <span class="go">进入文档 →</span>
-    </a>
-    <a class="card" href="Agentic设计模式读书笔记.html">
-      <span class="tag">读书笔记</span>
-      <h2>《Agentic Design Patterns》笔记</h2>
-      <p>Antonio Gulli 著，21 种智能体设计模式 + 7 个附录的分章速览。</p>
-      <span class="go">进入笔记 →</span>
-    </a>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__inner container">
+      <p class="hero__eyebrow">你好，我是 👋</p>
+      <h1 class="hero__name">Lam Ngai Kong</h1>
+      <p class="hero__lead">AI 学习者、健身爱好者、开发者。这里是我的个人名片——记录我在人工智能、力量训练与个人项目上的思考与进展。</p>
+
+      <ul class="tags">
+        <li class="tag tag--ai">🤖 AI 学习者</li>
+        <li class="tag tag--fit">💪 健身爱好者</li>
+        <li class="tag tag--dev">⌨️ 开发者</li>
+      </ul>
+
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="ai-learning/index.html">查看 AI 学习笔记 →</a>
+        <a class="btn btn--ghost" href="resume.pdf" download>下载简历</a>
+      </div>
+
+      <div class="hero__social">
+        <a class="social-link" href="https://github.com/LamNgaiKong" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.53-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.35.77 1.05.77 2.12v3.14c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+          GitHub
+        </a>
+        <a class="social-link" href="mailto:you@example.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          Email
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 最新动态（占位） -->
+  <section class="section container">
+    <div class="section-head">
+      <h2>最新动态</h2>
+      <a class="section-head__more" href="#">查看全部 →</a>
+    </div>
+    <div class="cards cards--2">
+      <article class="card card--link reveal">
+        <div class="card__meta">
+          <span class="card__tag">AI 学习</span>
+          <span class="card__date">2026-11</span>
+        </div>
+        <h3>DeepSeek Super-agent：Router + Worker 双层架构</h3>
+        <p>占位简介：拆解 Super-agent 的路由层与工作层如何协作。<!-- TODO: 换成真实摘要 --></p>
+        <span class="card__go">阅读笔记 →</span>
+      </article>
+      <article class="card card--link reveal">
+        <div class="card__meta">
+          <span class="card__tag">健身</span>
+          <span class="card__date">2026-11</span>
+        </div>
+        <h3>训练日志 · 第 1 周</h3>
+        <p>占位简介：本周训练计划与复盘。<!-- TODO: 换成真实摘要 --></p>
+        <span class="card__go">查看记录 →</span>
+      </article>
+      <article class="card card--link reveal">
+        <div class="card__meta">
+          <span class="card__tag">AI 学习</span>
+          <span class="card__date">2026-11</span>
+        </div>
+        <h3>DeepInfer 推理引擎学习笔记</h3>
+        <p>占位简介：记录 DeepInfer 的推理优化思路。<!-- TODO: 换成真实摘要 --></p>
+        <span class="card__go">阅读笔记 →</span>
+      </article>
+      <article class="card card--link reveal">
+        <div class="card__meta">
+          <span class="card__tag">项目</span>
+          <span class="card__date">即将上线</span>
+        </div>
+        <h3>第一个小项目</h3>
+        <p>占位简介：未来会放在这里的小程序或小游戏。<!-- TODO --></p>
+        <span class="card__go">敬请期待 →</span>
+      </article>
+    </div>
+  </section>
+
+  <!-- 三大板块入口 -->
+  <section class="section container">
+    <div class="section-head">
+      <h2>我的板块</h2>
+    </div>
+    <div class="cards cards--3">
+      <a class="card card--link reveal" href="ai-learning/index.html">
+        <span class="card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 9h6v6H9zM9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg>
+        </span>
+        <h3>AI 学习</h3>
+        <p>大模型、编程助手、Agent 设计模式，以及 DeepSeek 新架构的原理笔记。</p>
+        <span class="card__go">进入板块 →</span>
+      </a>
+      <a class="card card--link card--fit reveal" href="fitness/index.html">
+        <span class="card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5 2 11l3 3-1.5 1.5 6 6L11 20l3 3 4.5-4.5"/><path d="M17.5 17.5 22 13l-3-3 1.5-1.5-6-6L13 4l-3 3 4.5 4.5"/></svg>
+        </span>
+        <h3>健身</h3>
+        <p>训练日常记录，以及《NSCA 运动营养指南》的学习笔记。</p>
+        <span class="card__go">进入板块 →</span>
+      </a>
+      <a class="card card--link reveal" href="projects/index.html">
+        <span class="card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 6-5 6 5 6M16 6l5 6-5 6M13 4l-2 16"/></svg>
+        </span>
+        <h3>项目</h3>
+        <p>我开发的小程序与小游戏，陆续上线中。</p>
+        <span class="card__go">进入板块 →</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== 页脚（所有页面复用） ===================== -->
+<footer class="site-foot">
+  <div class="site-foot__inner">
+    <div class="site-foot__links">
+      <a href="https://github.com/LamNgaiKong" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:you@example.com">Email</a>
+    </div>
+    <p>© <span data-year>2026</span> Lam Ngai Kong · 由 GitHub Pages 托管</p>
   </div>
+</footer>
 
-  <footer>AI 知识库 · DSH AI Up · 信息更新时间 2026-11-12 · 仅用于个人学习参考</footer>
-</div>
-<script>
-  var btn = document.querySelector('[data-theme-toggle]');
-  btn.addEventListener('click', function () {
-    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    try { localStorage.setItem('ai-kb-theme', next); } catch (e) {}
-  });
-</script>
+<button class="to-top" type="button" data-to-top aria-label="回到顶部" title="回到顶部">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg>
+</button>
+
 </body>
 </html>

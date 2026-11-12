@@ -15,30 +15,30 @@
   // 尽早设定主题，避免深色模式闪白
   (function () {
     var t = null;
-    try { t = localStorage.getItem('ai-kb-theme'); } catch (e) {}
+    try { t = localStorage.getItem('lam-web-theme'); } catch (e) {}
     if (!t) {
       t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
     document.documentElement.setAttribute('data-theme', t);
   })();
 </script>
-<link rel="stylesheet" href="assets/site.css">
-<script src="assets/site.js" defer></script>
+<link rel="stylesheet" href="../assets/css/notes.css">
+<script src="../assets/js/notes.js" defer></script>
 </head>
 <body data-toc-mode="main">
 <div class="progress" data-progress></div>
 
 <header class="topbar">
   <div class="topbar__inner">
-    <a class="brand" href="AI大模型与编程助手整理.html">
+    <a class="brand" href="../index.html">
       <span class="brand__mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.6l2.3 5.7 5.7 2.3-5.7 2.3L12 18.6l-2.3-5.7L4 10.6l5.7-2.3z" fill="currentColor"/></svg></span>
-      <span class="brand__text">AI 知识库<small>DSH AI Up</small></span>
+      <span class="brand__text">AI Up</span>
     </a>
     <button class="icon-btn icon-btn--ghost nav-toggle" type="button" data-nav-toggle
             aria-expanded="false" aria-controls="sidebar" aria-label="打开目录"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <nav class="nav" aria-label="站点导航">
-        <a href="AI大模型与编程助手整理.html" aria-current="page">大模型与编程助手</a>
-        <a href="Agentic设计模式读书笔记.html">Agentic 设计模式笔记</a>
+        <a href="models.html" aria-current="page">大模型与编程助手</a>
+        <a href="agentic-patterns.html">Agentic 设计模式笔记</a>
     </nav>
     <div class="topbar__tools">
       <form class="search" role="search" data-search-form data-open="false">
@@ -573,7 +573,7 @@
     <h2>延伸阅读</h2>
     <p style="margin:0 0 10px; font-size:13px; color:var(--muted)">《Agentic Design Patterns》（智能体设计模式）— Antonio Gulli（Google 杰出工程师）著，系统讲解提示链、路由、多智能体协作、MCP、RAG 等 21 种智能体设计模式（21 个核心章节 + 7 个附录）。</p>
     <ul>
-      <li><a href="Agentic设计模式读书笔记.html" target="_blank" rel="noopener">本站读书笔记（21 章速览）</a></li>
+      <li><a href="agentic-patterns.html" target="_blank" rel="noopener">本站读书笔记（21 章速览）</a></li>
       <li><a href="https://docs.google.com/document/d/1rsaK53T3Lg5KoGwvf8ukOUvbELRtH-V0LnOIFDxBryE/preview" target="_blank" rel="noopener">英文原版（Google Docs，免费全文）</a></li>
       <li><a href="https://jimmysong.io/zh/book/agentic-design-patterns/" target="_blank" rel="noopener">中文翻译在线阅读（Jimmy Song 社区翻译，国内可访问）</a></li>
       <li><a href="https://github.com/evoiz/Agentic-Design-Patterns" target="_blank" rel="noopener">配套代码仓库（GitHub）</a></li>
