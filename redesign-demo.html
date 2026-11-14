@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>首页改版方案 Demo · Lam Ngai Kong</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --text: #0a0a0a;
+    --muted: #6b7280;
+    --muted-2: #9ca3af;
+    --border: #e5e7eb;
+    --border-strong: #d1d5db;
+    --accent: #4f46e5;
+    --accent-soft: #eef2ff;
+    --accent-2: #f59e0b;
+    --accent-2-soft: #fff7e6;
+    --radius: 20px;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b0f17;
+      --surface: #121826;
+      --text: #e8eaed;
+      --muted: #9aa3b2;
+      --muted-2: #6b7280;
+      --border: #232b3a;
+      --border-strong: #33405a;
+      --accent: #818cf8;
+      --accent-soft: #1a2033;
+      --accent-2: #fbbf24;
+      --accent-2-soft: #241f14;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: var(--bg); color: var(--text); }
+  body { font-family: var(--font); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+
+  /* 顶部切换器（仅 Demo 用） */
+  .switcher {
+    position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 100;
+    display: flex; gap: 4px; padding: 5px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 999px;
+    box-shadow: 0 8px 30px -12px rgba(0,0,0,.25);
+  }
+  .switcher button {
+    appearance: none; cursor: pointer; border: 0; background: transparent;
+    font: inherit; font-size: 13px; color: var(--muted);
+    padding: 8px 14px; border-radius: 999px; white-space: nowrap;
+    transition: background .16s, color .16s;
+  }
+  .switcher button:hover { color: var(--text); }
+  .switcher button.active { background: var(--text); color: var(--bg); }
+
+  .variant { display: none; }
+  .variant.active { display: block; animation: fade .35s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .wrap { max-width: 1180px; margin: 0 auto; width: 100%; }
+
+  /* ===================== 方案 A：文字主导极简 ===================== */
+  .v-a { min-height: 100vh; display: flex; align-items: center; padding: 130px 6vw 90px; }
+  .a-eyebrow { font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 2.4rem; }
+  .a-name { font-size: clamp(3.6rem, 10.5vw, 8.6rem); line-height: .92; letter-spacing: -.045em; font-weight: 700; }
+  .a-name .dim { color: var(--muted-2); }
+  .a-lead { margin-top: 2.6rem; max-width: 36ch; font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.7; color: var(--muted); }
+  .a-links { display: flex; flex-wrap: wrap; gap: 1.8rem; margin-top: 3.2rem; }
+  .a-links a { font-size: 15px; padding-bottom: 3px; border-bottom: 1px solid var(--border-strong); transition: border-color .2s, color .2s; }
+  .a-links a:hover { border-color: var(--accent); color: var(--accent); }
+  .a-scroll { margin-top: 5rem; font-size: 12px; color: var(--muted-2); letter-spacing: .12em; }
+
+  /* ===================== 方案 B：不对称网格 ===================== */
+  .v-b { min-height: 100vh; display: flex; align-items: center; padding: 130px 6vw 90px; }
+  .b-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 5vw; align-items: center; }
+  .b-eyebrow { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.6rem; }
+  .b-name { font-size: clamp(2.6rem, 5.4vw, 4.8rem); line-height: 1.02; letter-spacing: -.035em; font-weight: 700; }
+  .b-lead { margin-top: 1.6rem; max-width: 30ch; font-size: 1rem; line-height: 1.7; color: var(--muted); }
+  .b-links { display: flex; flex-wrap: wrap; gap: 1.4rem; margin-top: 2.2rem; }
+  .b-links a { font-size: 14px; color: var(--muted); padding-bottom: 2px; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+  .b-links a:hover { color: var(--accent); border-color: var(--accent); }
+  .b-visual {
+    position: relative; aspect-ratio: 1 / 1.12; border-radius: 28px; overflow: hidden;
+    background:
+      radial-gradient(circle at 32% 28%, var(--accent-soft) 0%, transparent 58%),
+      radial-gradient(circle at 72% 74%, var(--accent-2-soft) 0%, transparent 58%),
+      var(--surface);
+    border: 1px solid var(--border);
+  }
+  .b-visual::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(var(--border-strong) 1px, transparent 1px);
+    background-size: 22px 22px; opacity: .45;
+  }
+  .b-orb {
+    position: absolute; top: 50%; left: 50%; width: 34%; aspect-ratio: 1;
+    transform: translate(-50%, -50%); border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff 0%, var(--accent) 45%, #312e81 100%);
+    box-shadow: 0 0 90px -10px var(--accent), inset -14px -18px 40px rgba(0,0,0,.35);
+  }
+  .b-orb::after {
+    content: ""; position: absolute; inset: -38%; border-radius: 50%;
+    border: 1px solid var(--border-strong); opacity: .55;
+  }
+  .b-cap { position: absolute; left: 22px; bottom: 20px; font-size: 12px; color: var(--muted-2); letter-spacing: .08em; }
+
+  /* ===================== 方案 C：Bento 卡片流 ===================== */
+  .v-c { min-height: 100vh; padding: 120px 6vw 70px; }
+  .c-intro { font-size: clamp(1.5rem, 3vw, 2.3rem); line-height: 1.35; letter-spacing: -.02em; max-width: 34ch; margin-bottom: 2.6rem; }
+  .c-intro .dim { color: var(--muted); }
+  .c-bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+  .c-card {
+    position: relative; display: flex; flex-direction: column; justify-content: space-between;
+    padding: 26px; min-height: 176px; border-radius: var(--radius);
+    background: var(--surface); border: 1px solid var(--border);
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+  }
+  .c-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 18px 40px -22px rgba(0,0,0,.3); }
+  .c-card h3 { font-size: 20px; letter-spacing: -.01em; }
+  .c-card p { color: var(--muted); font-size: 14px; line-height: 1.6; margin-top: 8px; }
+  .c-card .go { margin-top: 18px; font-size: 13px; color: var(--accent); font-weight: 600; }
+  .c-ai { grid-column: span 4; grid-row: span 2; min-height: 372px; background: linear-gradient(160deg, var(--accent-soft), var(--surface) 70%); }
+  .c-ai h3 { font-size: 28px; }
+  .c-fit { grid-column: span 2; }
+  .c-proj { grid-column: span 2; }
+  .c-about { grid-column: span 6; flex-direction: row; align-items: center; justify-content: space-between; gap: 18px; min-height: auto; }
+  .c-about p { margin: 0; }
+
+  /* ===================== 响应式 ===================== */
+  @media (max-width: 860px) {
+    .b-grid { grid-template-columns: 1fr; gap: 2.4rem; }
+    .b-visual { order: -1; aspect-ratio: 16 / 11; }
+    .c-bento { grid-template-columns: 1fr; }
+    .c-ai, .c-fit, .c-proj, .c-about { grid-column: auto; grid-row: auto; }
+    .c-about { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 560px) {
+    .switcher button { padding: 7px 10px; font-size: 12px; }
+    .a-demo-note { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="switcher" role="tablist">
+  <button data-v="a" class="active">A · 文字极简</button>
+  <button data-v="b">B · 网格并重</button>
+  <button data-v="c">C · 板块卡片流</button>
+</div>
+
+<!-- ============ A ============ -->
+<section class="variant active" data-panel="a">
+  <div class="v-a wrap">
+    <div>
+      <p class="a-eyebrow">AI 学习者 · 健身爱好者 · 开发者</p>
+      <h1 class="a-name">Lam<br><span class="dim">Ngai Kong.</span></h1>
+      <p class="a-lead">记录我在人工智能、力量训练与个人项目上的思考与进展。</p>
+      <div class="a-links">
+        <a href="#">AI 学习 ↗</a>
+        <a href="#">健身 ↗</a>
+        <a href="#">项目 ↗</a>
+        <a href="#">GitHub ↗</a>
+      </div>
+      <p class="a-scroll">向下滚动 ↓</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ B ============ -->
+<section class="variant" data-panel="b">
+  <div class="v-b wrap">
+    <div class="b-grid">
+      <div>
+        <p class="b-eyebrow">你好，我是</p>
+        <h1 class="b-name">Lam<br>Ngai Kong</h1>
+        <p class="b-lead">AI 学习者、健身爱好者、开发者。这里是我的个人名片。</p>
+        <div class="b-links">
+          <a href="#">AI 学习 ↗</a>
+          <a href="#">健身 ↗</a>
+          <a href="#">项目 ↗</a>
+          <a href="#">GitHub ↗</a>
+        </div>
+      </div>
+      <div class="b-visual">
+        <div class="b-orb"></div>
+        <span class="b-cap">/ 视觉占位：3D 球体或精选图片</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ C ============ -->
+<section class="variant" data-panel="c">
+  <div class="v-c wrap">
+    <p class="c-intro">Lam Ngai Kong — <span class="dim">AI 学习者 · 健身爱好者 · 开发者</span></p>
+    <div class="c-bento">
+      <a class="c-card c-ai" href="#">
+        <div>
+          <h3>AI 学习</h3>
+          <p>大模型、编程助手、Agent 设计模式，以及 DeepSeek 新架构的原理笔记。</p>
+        </div>
+        <span class="go">进入板块 →</span>
+      </a>
+      <a class="c-card c-fit" href="#">
+        <div>
+          <h3>健身</h3>
+          <p>力量训练基础与 NSCA 运动营养笔记。</p>
+        </div>
+        <span class="go">进入板块 →</span>
+      </a>
+      <a class="c-card c-proj" href="#">
+        <div>
+          <h3>项目</h3>
+          <p>小程序与小游戏，陆续上线。</p>
+        </div>
+        <span class="go">进入板块 →</span>
+      </a>
+      <div class="c-card c-about">
+        <p>GitHub · Email · 关于我</p>
+        <span class="go">联系我 →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const btns = document.querySelectorAll('.switcher button');
+  const panels = document.querySelectorAll('.variant');
+  btns.forEach(b => b.addEventListener('click', () => {
+    btns.forEach(x => x.classList.toggle('active', x === b));
+    panels.forEach(p => p.classList.toggle('active', p.dataset.panel === b.dataset.v));
+  }));
+</script>
+</body>
+</html>

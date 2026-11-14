@@ -16,16 +16,15 @@
 <link rel="stylesheet" href="../assets/css/main.css">
 <script src="../assets/js/main.js" defer></script>
 <style>
-  /* 卡片内嵌的知识图谱入口 */
-  .card__graph {
-    display: flex; flex-direction: column; gap: 3px;
-    margin: 14px 0 8px; padding: 12px 14px;
-    border-radius: 12px;
-    background: var(--accent-soft);
-    border: 1px solid var(--accent-border);
+  /* 卡片内的两个入口 */
+  .card__actions {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+    margin-top: 16px;
   }
-  .card__graph-title { font-size: 14px; font-weight: 600; color: var(--text); }
-  .card__graph-desc { font-size: 12.5px; color: var(--muted); }
+  .card__galaxy-link {
+    font-size: 13.5px; color: var(--muted); text-decoration: none;
+  }
+  .card__galaxy-link:hover { color: var(--accent); text-decoration: underline; }
 </style>
 </head>
 <body data-page="fitness">
@@ -74,17 +73,16 @@
         <span class="card__go">查看记录 →</span>
       </a>
 
-      <!-- NSCA 运动营养（内嵌知识图谱入口） -->
-      <a class="card card--link card--fit reveal" href="nutrition/index.html">
+      <!-- NSCA 运动营养：文字目录为主，3D 星系为辅 -->
+      <div class="card card--fit reveal">
         <div class="card__meta"><span class="card__tag">学习笔记</span><span class="card__date">持续更新</span></div>
         <h3>NSCA运动营养</h3>
         <p>宏量营养素、能量代谢与补剂知识的整理。</p>
-        <span class="card__graph">
-          <span class="card__graph-title">🌌 知识图谱 · 3D 星系</span>
-          <span class="card__graph-desc">拖拽旋转宇宙 · 点击天体穿梭</span>
-        </span>
-        <span class="card__go">进入知识星系 →</span>
-      </a>
+        <div class="card__actions">
+          <a class="btn btn--primary btn--sm" href="nutrition/index.html">开始阅读 →</a>
+          <a class="card__galaxy-link" href="nutrition/galaxy.html">🌌 打开 3D 知识星系</a>
+        </div>
+      </div>
     </div>
   </section>
 </main>
