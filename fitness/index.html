@@ -16,35 +16,16 @@
 <link rel="stylesheet" href="../assets/css/main.css">
 <script src="../assets/js/main.js" defer></script>
 <style>
-  /* 知识图谱入口横幅 */
-  .graph-banner {
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    margin-top: 18px; padding: 20px 24px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    color: var(--text);
-    transition: transform .18s var(--ease), border-color .18s var(--ease), box-shadow .18s var(--ease);
+  /* 卡片内嵌的知识图谱入口 */
+  .card__graph {
+    display: flex; flex-direction: column; gap: 3px;
+    margin: 14px 0 8px; padding: 12px 14px;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-border);
   }
-  .graph-banner:hover {
-    transform: translateY(-3px);
-    border-color: var(--accent-border);
-    box-shadow: var(--shadow-md);
-    text-decoration: none;
-  }
-  .graph-banner h3 { font-size: 17px; margin: 0 0 6px; }
-  .graph-banner p { color: var(--muted); font-size: 14px; margin: 0; }
-  .graph-banner__go {
-    flex: none; white-space: nowrap;
-    color: #fff; background: var(--accent);
-    padding: 10px 18px; border-radius: 999px;
-    font-size: 14px; font-weight: 600;
-  }
-  .graph-banner:hover .graph-banner__go { background: var(--accent-strong); }
-  @media (max-width: 560px) {
-    .graph-banner { flex-direction: column; align-items: flex-start; }
-  }
+  .card__graph-title { font-size: 14px; font-weight: 600; color: var(--text); }
+  .card__graph-desc { font-size: 12.5px; color: var(--muted); }
 </style>
 </head>
 <body data-page="fitness">
@@ -79,34 +60,32 @@
     <div class="hero__inner container">
       <span class="eyebrow">健身与营养</span>
       <h1 class="hero__name">健身</h1>
-      <p class="hero__lead">训练日常的记录与复盘，以及《NSCA 运动营养指南》的系统学习笔记。</p>
+      <p class="hero__lead">力量训练基础与阶段复盘，以及 NSCA 运动营养的系统学习笔记。</p>
     </div>
   </section>
 
   <section class="section container">
     <div class="cards cards--2">
-      <!-- TODO: 训练日志（日期倒序条目） -->
-      <a class="card card--link card--fit reveal" href="#">
+      <!-- 力量训练基础 -->
+      <a class="card card--link card--fit reveal" href="training/index.html">
         <div class="card__meta"><span class="card__tag">训练日志</span><span class="card__date">持续更新</span></div>
-        <h3>训练日常</h3>
+        <h3>力量训练基础</h3>
         <p>力量训练计划、动作要点与阶段复盘。</p>
         <span class="card__go">查看记录 →</span>
       </a>
-      <a class="card card--link card--fit reveal" href="nutrition/html/能量消耗和体成分/index.html">
+
+      <!-- NSCA 运动营养（内嵌知识图谱入口） -->
+      <a class="card card--link card--fit reveal" href="nutrition/index.html">
         <div class="card__meta"><span class="card__tag">学习笔记</span><span class="card__date">持续更新</span></div>
-        <h3>《NSCA 运动营养指南》笔记</h3>
+        <h3>NSCA运动营养</h3>
         <p>宏量营养素、能量代谢与补剂知识的整理。</p>
-        <span class="card__go">阅读笔记 →</span>
+        <span class="card__graph">
+          <span class="card__graph-title">🌌 知识图谱 · 3D 星系</span>
+          <span class="card__graph-desc">拖拽旋转宇宙 · 点击天体穿梭</span>
+        </span>
+        <span class="card__go">进入知识星系 →</span>
       </a>
     </div>
-
-    <a class="graph-banner reveal" href="nutrition/index.html">
-      <div class="graph-banner__body">
-        <h3>知识图谱 · 3D 星系</h3>
-        <p>以 3D 星系总览 NSCA 笔记，拖拽旋转宇宙、点击天体在知识点之间穿梭。</p>
-      </div>
-      <span class="graph-banner__go">查看知识图谱 →</span>
-    </a>
   </section>
 </main>
 

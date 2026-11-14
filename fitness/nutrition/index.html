@@ -255,7 +255,10 @@ async function initGalaxy() {
     THREE = await import('../../assets/js/vendor/three.module.js');
   } catch (e) {
     try { THREE = await import('https://esm.sh/three'); }
-    catch (e2) { console.warn('[galaxy] THREE 加载失败，降级为内置球体渲染', e2); }
+    catch (e2) {
+      try { THREE = await import('https://cdn.jsdelivr.net/npm/three/+esm'); }
+      catch (e3) { console.warn('[galaxy] THREE 加载失败，降级为内置球体渲染', e3); }
+    }
   }
 
   let UnrealBloomPass = null;
