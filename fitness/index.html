@@ -15,6 +15,37 @@
 </script>
 <link rel="stylesheet" href="../assets/css/main.css">
 <script src="../assets/js/main.js" defer></script>
+<style>
+  /* 知识图谱入口横幅 */
+  .graph-banner {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    margin-top: 18px; padding: 20px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    color: var(--text);
+    transition: transform .18s var(--ease), border-color .18s var(--ease), box-shadow .18s var(--ease);
+  }
+  .graph-banner:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-border);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+  }
+  .graph-banner h3 { font-size: 17px; margin: 0 0 6px; }
+  .graph-banner p { color: var(--muted); font-size: 14px; margin: 0; }
+  .graph-banner__go {
+    flex: none; white-space: nowrap;
+    color: #fff; background: var(--accent);
+    padding: 10px 18px; border-radius: 999px;
+    font-size: 14px; font-weight: 600;
+  }
+  .graph-banner:hover .graph-banner__go { background: var(--accent-strong); }
+  @media (max-width: 560px) {
+    .graph-banner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
 </head>
 <body data-page="fitness">
 
@@ -61,14 +92,21 @@
         <p>力量训练计划、动作要点与阶段复盘。</p>
         <span class="card__go">查看记录 →</span>
       </a>
-      <!-- TODO: NSCA 营养笔记 -->
-      <a class="card card--link card--fit reveal" href="#">
-        <div class="card__meta"><span class="card__tag">学习笔记</span><span class="card__date">写作中</span></div>
+      <a class="card card--link card--fit reveal" href="nutrition/html/能量消耗和体成分/index.html">
+        <div class="card__meta"><span class="card__tag">学习笔记</span><span class="card__date">持续更新</span></div>
         <h3>《NSCA 运动营养指南》笔记</h3>
         <p>宏量营养素、能量代谢与补剂知识的整理。</p>
         <span class="card__go">阅读笔记 →</span>
       </a>
     </div>
+
+    <a class="graph-banner reveal" href="nutrition/index.html">
+      <div class="graph-banner__body">
+        <h3>知识图谱 · 全局视图</h3>
+        <p>以网状关系总览 NSCA 笔记，点击节点在章节知识点之间穿梭。</p>
+      </div>
+      <span class="graph-banner__go">查看知识图谱 →</span>
+    </a>
   </section>
 </main>
 
