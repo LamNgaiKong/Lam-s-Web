@@ -4,164 +4,351 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#f7f8fa">
-<meta name="description" content="NSCA 运动营养指南笔记的全局知识图谱：以网状关系总览各章节知识点。">
-<title>知识图谱 · 健身 · Lam Ngai Kong</title>
+<meta name="theme-color" content="#000005">
+<title>营养知识星系 · Lam Ngai Kong</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ctext x='16' y='22' font-size='16' font-weight='bold' text-anchor='middle' fill='%23fff' font-family='Arial'%3ELK%3C/text%3E%3C/svg%3E">
 <script>
-  // 尽早设定主题，避免深色模式闪白（与主站一致）
+  // 主题初始化（与主站一致）
   (function () { var t = null; try { t = localStorage.getItem('lam-web-theme'); } catch (e) {}
     if (!t) t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', t); })();
 </script>
-<link rel="stylesheet" href="../../assets/css/main.css">
-<script src="../../assets/js/main.js" defer></script>
 <style>
-  /* ==========================================================================
-     NSCA 知识图谱页 · 页内专用样式
-     ========================================================================== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #000005; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
 
-  .backlink {
+  #graph { position: fixed; inset: 0; }
+
+  /* 顶部 */
+  .ui-top {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 22px; pointer-events: none;
+    background: linear-gradient(#00000099, transparent);
+  }
+  .ui-top a, .ui-top .badge { pointer-events: auto; color: #cdd6f4; font-size: 14px; text-decoration: none; }
+  .ui-top a {
     display: inline-flex; align-items: center; gap: 6px;
-    font-size: 14px; color: var(--muted); margin-bottom: 20px;
-    transition: color .16s var(--ease);
+    padding: 7px 14px; border-radius: 999px;
+    border: 1px solid #3a3f5c; background: #11142a99;
+    backdrop-filter: blur(6px); transition: border-color .16s, color .16s;
   }
-  .backlink:hover { color: var(--accent); text-decoration: none; }
+  .ui-top a:hover { color: #fff; border-color: #6f7ab8; text-decoration: none; }
+  .ui-top .badge { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: #e7e9ff; text-shadow: 0 0 12px #7b6cff88; }
+  .ui-top .badge small { font-weight: 400; color: #8b90b8; font-size: 12px; }
 
-  /* 图谱容器：白色（暗色下深色）圆角卡片 + 细微阴影 */
-  .graph-card {
-    position: relative;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    padding: 8px;
-    overflow: hidden;
+  /* 底部：图例 + 操作按钮 */
+  .bottom-ui {
+    position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 20;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    width: max-content; max-width: calc(100vw - 24px);
   }
-  #graph {
-    width: 100%;
-    height: min(74vh, 760px);
-    min-height: 480px;
-  }
-
-  /* 图例 */
-  .graph-legend {
+  .legend {
     display: flex; flex-wrap: wrap; gap: 18px; justify-content: center;
-    margin-top: 16px; font-size: 12.5px; color: var(--muted);
+    padding: 9px 18px; border-radius: 999px;
+    background: #0a0d1a99; border: 1px solid #2a2f45; backdrop-filter: blur(8px);
+    font-size: 12.5px; color: #aeb4d4;
   }
-  .legend-dot {
-    display: inline-block; width: 10px; height: 10px; border-radius: 50%;
-    margin-right: 6px; vertical-align: -1px;
-  }
-  .legend-dot--root { background: var(--accent-2); }
-  .legend-dot--built { background: var(--accent); }
-  .legend-dot--section { background: #0d9488; }
-  .legend-dot--todo { background: var(--muted-2); }
-  [data-theme="dark"] .legend-dot--section { background: #2dd4bf; }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+  .legend i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+  .legend .star   { background: radial-gradient(circle, #fff6c0 0%, #ffb347 55%, #ff7a18 100%); box-shadow: 0 0 10px #ffb347; }
+  .legend .planet { background: radial-gradient(circle, #6b7bd6 0%, #2b3d8f 70%); box-shadow: 0 0 6px #4a5bb8; }
+  .legend .moon   { background: radial-gradient(circle, #4fd6a0 0%, #1d9e6c 70%); box-shadow: 0 0 6px #1d9e6c; }
+  .legend .topic  { background: radial-gradient(circle, #b6bdcf 0%, #8f98a8 70%); }
 
-  /* 点击未建节点的提示 */
-  .graph-toast {
-    position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
-    padding: 9px 16px; border-radius: 999px;
-    background: var(--text); color: var(--bg);
-    font-size: 13px; box-shadow: var(--shadow-md);
-    z-index: 6; pointer-events: none; white-space: nowrap;
+  .actions { display: flex; gap: 10px; }
+  .actions button {
+    appearance: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 16px; min-height: 38px; border-radius: 999px;
+    font: inherit; font-size: 13px;
+    color: #cdd6f4; background: #11142a99; border: 1px solid #3a3f5c;
+    backdrop-filter: blur(8px); transition: border-color .16s, color .16s, background .16s;
   }
-  .graph-toast[hidden] { display: none; }
+  .actions button:hover { color: #fff; border-color: #6f7ab8; background: #1a1f3a99; }
+  .actions button:active { transform: scale(.97); }
 
-  .mindmap-hint {
-    margin: 16px 4px 0;
-    font-size: 13px;
-    color: var(--muted);
-    text-align: center;
+  /* 提示 */
+  .hint {
+    position: fixed; right: 22px; bottom: 22px; z-index: 20;
+    font-size: 12px; color: #7d84a8; text-align: right; line-height: 1.7; pointer-events: none;
   }
+  @media (max-width: 760px) { .hint { display: none; } }
 
-  @media (max-width: 720px) {
-    #graph { height: 66vh; min-height: 420px; }
+  /* 加载态 */
+  #loading {
+    position: fixed; inset: 0; z-index: 30;
+    display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+    color: #8f97c4; font-size: 14px; background: #000005; transition: opacity .5s ease;
   }
+  #loading .ring {
+    width: 42px; height: 42px; border-radius: 50%;
+    border: 2px solid #2a2f45; border-top-color: #ffb347;
+    animation: spin 0.9s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #loading.is-hidden { opacity: 0; pointer-events: none; }
+  #loading .err { color: #f88; max-width: 420px; text-align: center; line-height: 1.6; }
+
+  /* 亮色模式：页面底色与按钮对比 */
+  [data-theme="light"] body { background: #28313f; }
+  [data-theme="light"] .ui-top { background: linear-gradient(#1a2230aa, transparent); }
+  [data-theme="light"] .ui-top a, [data-theme="light"] .ui-top .badge { color: #e6ecf6; }
+  [data-theme="light"] .actions button { color: #e6ecf6; background: #22304299; border-color: #4a5a72; }
+  [data-theme="light"] #loading { background: #28313f; }
 </style>
 </head>
 <body data-page="fitness">
 
-<a class="skip-link" href="#main">跳到正文</a>
+<div id="graph"></div>
 
-<!-- ===================== 导航栏（与主站一致） ===================== -->
-<header class="topbar">
-  <div class="topbar__inner">
-    <a class="brand" href="../../index.html">
-      <span class="brand__mark">LK</span>
-      <span class="brand__text">Lam Ngai Kong</span>
-    </a>
+<div class="ui-top">
+  <a href="../index.html">← 返回健身</a>
+  <span class="badge">🌌 营养知识星系</span>
+</div>
 
-    <button class="icon-btn nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav" aria-label="打开菜单">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-    </button>
-
-    <nav class="nav" id="site-nav" data-nav aria-label="站点导航">
-      <a href="../../index.html" data-nav-link="home">首页</a>
-      <a href="../../ai-learning/index.html" data-nav-link="ai">AI 学习</a>
-      <a href="../index.html" data-nav-link="fitness">健身</a>
-      <a href="../../projects/index.html" data-nav-link="projects">项目</a>
-    </nav>
-
-    <div class="topbar__tools">
-      <button class="icon-btn" type="button" data-theme-toggle aria-label="切换深浅色主题" title="切换主题">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.9 6.9 0 0 0 11.1 11.1z"/></svg>
-      </button>
-    </div>
+<div class="bottom-ui">
+  <div class="legend">
+    <span><i class="star"></i>总览（恒星）</span>
+    <span><i class="planet"></i>章节（行星）</span>
+    <span><i class="moon"></i>小节（卫星）</span>
+    <span><i class="topic"></i>主题</span>
   </div>
-</header>
-
-<!-- ===================== 正文 ===================== -->
-<main class="page" id="main">
-
-  <section class="hero">
-    <div class="hero__inner container">
-      <a class="backlink" href="../index.html">← 返回健身</a>
-      <span class="eyebrow">NSCA 运动营养指南 · 知识图谱</span>
-      <h1 class="hero__name">知识图谱</h1>
-      <p class="hero__lead">以「运动营养 → 章节 → 小节 → 主题」展示全部笔记，点击节点跳转到对应页面；节点间连线展示跨章节关联。</p>
-    </div>
-  </section>
-
-  <section class="section container">
-    <div class="graph-card">
-      <div id="graph"></div>
-      <div class="graph-toast" id="graph-toast" hidden></div>
-    </div>
-
-    <div class="graph-legend">
-      <span><span class="legend-dot legend-dot--root"></span>总览</span>
-      <span><span class="legend-dot legend-dot--built"></span>章节</span>
-      <span><span class="legend-dot legend-dot--section"></span>小节</span>
-      <span><span class="legend-dot legend-dot--todo"></span>主题</span>
-    </div>
-    <p class="mindmap-hint">💡 拖拽平移 · 滚轮缩放 · 拖拽节点调整位置 · 悬停查看关联 · 点击节点跳转页面</p>
-  </section>
-
-</main>
-
-<!-- ===================== 页脚（与主站一致） ===================== -->
-<footer class="site-foot">
-  <div class="site-foot__inner">
-    <div class="site-foot__links">
-      <a href="https://github.com/LamNgaiKong" target="_blank" rel="noopener">GitHub</a>
-      <a href="mailto:you@example.com">Email</a>
-    </div>
-    <p>© <span data-year>2026</span> Lam Ngai Kong · 由 GitHub Pages 托管</p>
+  <div class="actions">
+    <button id="reset-view" type="button">⟲ 重置视角</button>
+    <button id="theme-toggle" type="button" title="切换明暗主题">🌙</button>
   </div>
-</footer>
+</div>
 
-<button class="to-top" type="button" data-to-top aria-label="回到顶部" title="回到顶部">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg>
-</button>
+<div class="hint">拖拽：360° 旋转<br>滚轮：拉近 / 拉远<br>点击天体：跳转页面</div>
 
-<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<div id="loading"><div class="ring"></div><div>正在构建星系…</div></div>
+
+<!-- 数据（复用现有） -->
 <script src="../../assets/js/nsca-relations.js"></script>
 <script src="../../assets/js/nsca-tree.js"></script>
-<script src="../../assets/js/nsca-graph.js"></script>
-<script>window.NSCAGraph.mount('graph', null);</script>
+<!-- 3D 引擎（本地化 UMD） -->
+<script src="../../assets/js/vendor/3d-force-graph.min.js"></script>
+
+<script type="module">
+// ---------- 依赖：本地优先，CDN 兜底 ----------
+let THREE = null;
+try {
+  THREE = await import('../../assets/js/vendor/three.module.js');
+} catch (e) {
+  try { THREE = await import('https://esm.sh/three'); }
+  catch (e2) { console.warn('[galaxy] THREE 加载失败，降级为内置球体渲染', e2); }
+}
+
+let UnrealBloomPass = null;
+if (THREE) {
+  try {
+    const m = await import('../../assets/js/vendor/postprocessing/UnrealBloomPass.js');
+    UnrealBloomPass = m.UnrealBloomPass;
+  } catch (e) {
+    try {
+      const m = await import('https://esm.sh/three/examples/jsm/postprocessing/UnrealBloomPass.js');
+      UnrealBloomPass = m.UnrealBloomPass;
+    } catch (e2) { console.warn('[galaxy] Bloom 加载失败，跳过泛光', e2); }
+  }
+}
+
+// ---------- 数据与分类 ----------
+const TREE = window.NSCA_TREE || { nodes: [], links: [] };
+const NOTES = window.NSCA_NOTES || { relations: [] };
+const nodeIds = new Set(TREE.nodes.map(n => n.id));
+const isMobile = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || window.innerWidth < 768;
+
+function categoryOf(n) {
+  if (n.depth === 0) return 'star';
+  if (n.depth === 1) return 'planet';
+  if (n.depth === 2) return 'moon';
+  return 'topic';
+}
+const RADIUS = { star: 4.2, planet: 2.7, moon: 1.6, topic: 1.0 };
+const VAL    = { star: 90, planet: 34, moon: 14, topic: 5 };
+const COLOR  = { star: '#ffb347', planet: '#2b3d8f', moon: '#1d9e6c', topic: '#8f98a8' };
+
+// ---------- 恒光辉光纹理 ----------
+let glowTex = null;
+if (THREE) {
+  const s = 256, cv = document.createElement('canvas');
+  cv.width = cv.height = s;
+  const ctx = cv.getContext('2d');
+  const g = ctx.createRadialGradient(s/2, s/2, 0, s/2, s/2, s/2);
+  g.addColorStop(0, 'rgba(255,255,235,1)');
+  g.addColorStop(0.18, 'rgba(255,220,120,0.9)');
+  g.addColorStop(0.45, 'rgba(255,150,40,0.35)');
+  g.addColorStop(1, 'rgba(255,120,0,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, s, s);
+  glowTex = new THREE.CanvasTexture(cv);
+  glowTex.needsUpdate = true;
+}
+
+// ---------- 构建 3D 图 ----------
+const graph = new ForceGraph3D(document.getElementById('graph'), {
+    controlType: 'orbit',
+    rendererConfig: { antialias: !isMobile }
+  })
+  .backgroundColor('#000005')
+  .showNavInfo(false)
+  .nodeVal(n => VAL[categoryOf(n)] || 5)
+  .nodeLabel(n => n.name)
+  .onNodeClick(node => { if (node && node.file) window.location.href = node.file; });
+
+if (THREE) {
+  graph.nodeThreeObject(node => {
+    const cat = categoryOf(node);
+    const r = RADIUS[cat];
+    if (cat === 'star') {
+      const grp = new THREE.Group();
+      const glow = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: glowTex, color: 0xffd27a, blending: THREE.AdditiveBlending,
+        transparent: true, depthWrite: false, opacity: 1
+      }));
+      glow.scale.set(46, 46, 1);
+      grp.add(glow);
+      grp.add(new THREE.Mesh(
+        new THREE.SphereGeometry(r, 32, 32),
+        new THREE.MeshBasicMaterial({ color: 0xfff4c0 })
+      ));
+      return grp;
+    }
+    if (cat === 'planet') {
+      return new THREE.Mesh(
+        new THREE.SphereGeometry(r, 32, 32),
+        new THREE.MeshPhongMaterial({ color: 0x2b3d8f, emissive: 0x131a45, shininess: 60, specular: 0x9aa8ff })
+      );
+    }
+    if (cat === 'moon') {
+      return new THREE.Mesh(
+        new THREE.SphereGeometry(r, 24, 24),
+        new THREE.MeshPhongMaterial({ color: 0x1d9e6c, emissive: 0x0a3a26, shininess: 30, specular: 0x7fe6b8 })
+      );
+    }
+    return new THREE.Mesh(
+      new THREE.SphereGeometry(r, 16, 16),
+      new THREE.MeshBasicMaterial({ color: 0x8f98a8 })
+    );
+  });
+} else {
+  // 降级：只用内置球体 + 纯色，保证 3D 图仍可用
+  graph.nodeColor(n => COLOR[categoryOf(n)] || '#8f98a8');
+}
+
+// 合并数据：层级边 + 跨章节关联边
+const links = TREE.links.map(l => ({ source: l.source, target: l.target, kind: 'tree' }));
+(NOTES.relations || []).forEach(r => {
+  if (nodeIds.has(r.from) && nodeIds.has(r.to)) links.push({ source: r.from, target: r.to, kind: 'relation' });
+});
+graph.linkColor(l => l.kind === 'relation' ? '#ffb347' : 'rgba(120,150,220,0.32)')
+     .linkWidth(l => l.kind === 'relation' ? 1.6 : 0.4)
+     .linkOpacity(0.6);
+graph.graphData({ nodes: TREE.nodes.slice(), links });
+
+// ---------- 灯光 + 星空 ----------
+let starfield = null;
+if (THREE) {
+  const scene = graph.scene();
+  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+  const key = new THREE.DirectionalLight(0xffffff, 0.95); key.position.set(1, 1.2, 1); scene.add(key);
+  const rim = new THREE.DirectionalLight(0x7080ff, 0.55); rim.position.set(-1, -0.8, -0.6); scene.add(rim);
+
+  const count = isMobile ? 800 : 2600;
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    const rr = 700 + Math.random() * 1500;
+    const th = Math.random() * Math.PI * 2;
+    const ph = Math.acos(2 * Math.random() - 1);
+    pos[i*3]   = rr * Math.sin(ph) * Math.cos(th);
+    pos[i*3+1] = rr * Math.sin(ph) * Math.sin(th);
+    pos[i*3+2] = rr * Math.cos(ph);
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const mat = new THREE.PointsMaterial({
+    color: 0xffffff, size: isMobile ? 2.2 : 1.8, sizeAttenuation: true,
+    transparent: true, opacity: 0.85, depthWrite: false
+  });
+  starfield = new THREE.Points(geo, mat);
+  scene.add(starfield);
+}
+
+// ---------- 泛光 ----------
+let bloom = null;
+if (THREE && UnrealBloomPass) {
+  try {
+    bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.65, 0.12);
+    graph.postProcessingComposer().addPass(bloom);
+  } catch (e) { console.warn('[galaxy] Bloom 初始化失败，跳过', e); bloom = null; }
+}
+
+// ---------- 像素比（移动端限制） ----------
+try {
+  const r = graph.renderer && graph.renderer();
+  if (r && r.setPixelRatio) r.setPixelRatio(isMobile ? 1.5 : 2);
+} catch (e) {}
+
+// ---------- 相机 / 重置视角 ----------
+let homeCam = { x: 0, y: 130, z: 300 };
+let fitted = false;
+function fitOnce() {
+  if (fitted) return;
+  fitted = true;
+  try { graph.zoomToFit(800, 60); } catch (e) {}
+  setTimeout(() => {
+    try { const p = graph.cameraPosition(); homeCam = { x: p.x, y: p.y, z: p.z }; } catch (e) {}
+  }, 1200);
+}
+graph.onEngineStop(fitOnce);
+setTimeout(fitOnce, 3000);
+
+const controls = graph.controls();
+if (controls) { controls.autoRotate = true; controls.autoRotateSpeed = 0.3; }
+
+const resetBtn = document.getElementById('reset-view');
+if (resetBtn) resetBtn.addEventListener('click', () => {
+  try { graph.cameraPosition(homeCam, { x: 0, y: 0, z: 0 }, 900); } catch (e) {}
+});
+
+// ---------- 主题联动 ----------
+function applyTheme() {
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  try { graph.backgroundColor(dark ? '#000005' : '#28313f'); } catch (e) {}
+  if (starfield) starfield.material.opacity = dark ? 0.9 : 0.35;
+  if (bloom) bloom.strength = dark ? (isMobile ? 1.0 : 1.5) : (isMobile ? 0.55 : 0.85);
+  const tbtn = document.getElementById('theme-toggle');
+  if (tbtn) tbtn.textContent = dark ? '☀️' : '🌙';
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', dark ? '#000005' : '#28313f');
+}
+applyTheme();
+
+const tbtn = document.getElementById('theme-toggle');
+if (tbtn) tbtn.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('lam-web-theme', next); } catch (e) {}
+  applyTheme();
+});
+
+// ---------- 收尾 ----------
+document.getElementById('graph').dataset.ok = '1';
+const loading = document.getElementById('loading');
+if (loading) { loading.classList.add('is-hidden'); setTimeout(() => loading.remove(), 600); }
+</script>
+
+<script>
+  // 兜底：15 秒仍未就绪则提示
+  setTimeout(function () {
+    var g = document.getElementById('graph');
+    var l = document.getElementById('loading');
+    if (g && !g.dataset.ok && l) {
+      l.innerHTML = '<div class="err">3D 场景加载失败或超时。<br>请检查网络后刷新。</div>';
+    }
+  }, 15000);
+</script>
 
 </body>
 </html>
