@@ -15,17 +15,6 @@
 </script>
 <link rel="stylesheet" href="../assets/css/main.css">
 <script src="../assets/js/main.js" defer></script>
-<style>
-  /* 卡片内的两个入口 */
-  .card__actions {
-    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
-    margin-top: 16px;
-  }
-  .card__galaxy-link {
-    font-size: 13.5px; color: var(--muted); text-decoration: none;
-  }
-  .card__galaxy-link:hover { color: var(--accent); text-decoration: underline; }
-</style>
 </head>
 <body data-page="fitness">
 
@@ -39,7 +28,7 @@
     </button>
     <nav class="nav" id="site-nav" data-nav aria-label="站点导航">
       <a href="../index.html" data-nav-link="home">首页</a>
-      <a href="../ai-learning/index.html" data-nav-link="ai">AI 学习</a>
+      <a href="../ai-learning/index.html" data-nav-link="ai">AI·Agent</a>
       <a href="index.html" data-nav-link="fitness">健身</a>
       <a href="../projects/index.html" data-nav-link="projects">项目</a>
       <!-- 简历入口（暂隐藏，准备好 resume.pdf 后取消注释）
@@ -55,36 +44,39 @@
 </header>
 
 <main class="page" id="main">
-  <section class="hero">
-    <div class="hero__inner container">
-      <span class="eyebrow">健身与营养</span>
-      <h1 class="hero__name">健身</h1>
-      <p class="hero__lead">力量训练基础与阶段复盘，以及 NSCA 运动营养的系统学习笔记。</p>
-    </div>
+  <section class="page-head container">
+    <p class="page-head__eyebrow">健身与营养</p>
+    <h1 class="page-head__title">健身</h1>
+    <p class="page-head__lead">力量训练基础与阶段复盘，以及 NSCA 运动营养的系统学习笔记。</p>
   </section>
 
-  <section class="section container">
-    <div class="cards cards--2">
-      <!-- 力量训练基础 -->
-      <a class="card card--link card--fit reveal" href="training/index.html">
-        <div class="card__meta"><span class="card__tag">训练日志</span><span class="card__date">持续更新</span></div>
-        <h3>力量训练基础</h3>
-        <p>力量训练计划、动作要点与阶段复盘。</p>
-        <span class="card__go">查看记录 →</span>
-      </a>
-
-      <!-- NSCA 运动营养：文字目录为主，3D 星系为辅 -->
-      <div class="card card--fit reveal">
-        <div class="card__meta"><span class="card__tag">学习笔记</span><span class="card__date">持续更新</span></div>
-        <h3>NSCA运动营养</h3>
-        <p>宏量营养素、能量代谢与补剂知识的整理。</p>
-        <div class="card__actions">
-          <a class="btn btn--primary btn--sm" href="nutrition/index.html">开始阅读 →</a>
-          <a class="card__galaxy-link" href="nutrition/galaxy.html">🌌 打开 3D 知识星系</a>
+  <nav class="section-index container" aria-label="健身板块内容">
+    <div class="sec-head">
+      <h2 class="sec-head__kicker">01 — 内容</h2>
+      <span class="sec-head__meta">2 个板块</span>
+    </div>
+    <ol class="index">
+      <li class="index__item">
+        <span class="index__num">01</span>
+        <div class="index__body">
+          <h3 class="index__title"><a class="index__link" href="training/index.html">力量训练基础</a></h3>
+          <p class="index__desc">力量训练计划、动作要点与阶段复盘。</p>
         </div>
-      </div>
-    </div>
-  </section>
+        <span class="index__go" aria-hidden="true">→</span>
+      </li>
+      <li class="index__item">
+        <span class="index__num">02</span>
+        <div class="index__body">
+          <h3 class="index__title"><a class="index__link" href="nutrition/index.html">NSCA运动营养</a></h3>
+          <p class="index__desc">宏量营养素、能量代谢与补剂知识的整理。</p>
+        </div>
+        <span class="index__end">
+          <a class="index__alt" href="nutrition/galaxy.html">3D 知识星系 ↗</a>
+          <span class="index__go" aria-hidden="true">→</span>
+        </span>
+      </li>
+    </ol>
+  </nav>
 </main>
 
 <footer class="site-foot">

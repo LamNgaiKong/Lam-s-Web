@@ -15,12 +15,6 @@
 </script>
 <link rel="stylesheet" href="../../assets/css/main.css">
 <script src="../../assets/js/main.js" defer></script>
-<style>
-  .hero__actions { margin-top: 18px; }
-  .chapter-card { display: flex; flex-direction: column; }
-  .chapter-card h3 { font-size: 18px; margin: 0 0 8px; }
-  .chapter-card p { flex: 1; }
-</style>
 </head>
 <body data-page="fitness">
 
@@ -34,7 +28,7 @@
     </button>
     <nav class="nav" id="site-nav" data-nav aria-label="站点导航">
       <a href="../../index.html" data-nav-link="home">首页</a>
-      <a href="../../ai-learning/index.html" data-nav-link="ai">AI 学习</a>
+      <a href="../../ai-learning/index.html" data-nav-link="ai">AI·Agent</a>
       <a href="../index.html" data-nav-link="fitness">健身</a>
       <a href="../../projects/index.html" data-nav-link="projects">项目</a>
     </nav>
@@ -48,42 +42,45 @@
 </header>
 
 <main class="page" id="main">
-  <section class="hero">
-    <div class="hero__inner container">
-      <a class="backlink" href="../index.html">← 返回健身</a>
-      <span class="eyebrow">NSCA 运动营养</span>
-      <h1 class="hero__name">笔记目录</h1>
-      <p class="hero__lead">按章节整理的运动营养学习笔记。先看目录，再进入具体章节；想看关系网时，再打开 3D 星系。</p>
-      <p class="hero__actions">
-        <a class="btn btn--ghost btn--sm" href="galaxy.html">🌌 打开 3D 知识星系</a>
-      </p>
-    </div>
+  <section class="page-head container">
+    <a class="backlink" href="../index.html">← 返回健身</a>
+    <p class="page-head__eyebrow">NSCA 运动营养</p>
+    <h1 class="page-head__title">笔记目录</h1>
+    <p class="page-head__lead">按章节整理的运动营养学习笔记。先看目录，再进入具体章节。</p>
   </section>
 
-  <section class="section container">
-    <div class="cards cards--3">
-      <a class="card card--link chapter-card reveal" href="pages/能量消耗和体成分/index.html">
-        <div class="card__meta"><span class="card__tag">章节</span><span class="card__date">5 节</span></div>
-        <h3>能量消耗和体成分</h3>
-        <p>能量平衡、低热量膳食、高热量膳食、运动相对能量缺乏症、专业应用。</p>
-        <span class="card__go">进入章节 →</span>
-      </a>
-
-      <a class="card card--link chapter-card reveal" href="pages/碳水化合物/index.html">
-        <div class="card__meta"><span class="card__tag">章节</span><span class="card__date">4 节</span></div>
-        <h3>碳水化合物</h3>
-        <p>碳水化合物的种类、体内碳水化合物的调节、碳水化合物和运动表现、专业应用。</p>
-        <span class="card__go">进入章节 →</span>
-      </a>
-
-      <a class="card card--link chapter-card reveal" href="pages/力量与爆发力补剂/index.html">
-        <div class="card__meta"><span class="card__tag">章节</span><span class="card__date">6 节</span></div>
-        <h3>力量与爆发力补剂</h3>
-        <p>肌酸、HMB、激素原、蛋白质和氨基酸、运动前补剂、专业应用。</p>
-        <span class="card__go">进入章节 →</span>
-      </a>
+  <nav class="section-index container" aria-label="章节列表">
+    <div class="sec-head">
+      <h2 class="sec-head__kicker">01 — 章节</h2>
+      <span class="sec-head__meta"><a href="galaxy.html">3D 知识星系 ↗</a></span>
     </div>
-  </section>
+    <ol class="index">
+      <li class="index__item">
+        <span class="index__num">01</span>
+        <div class="index__body">
+          <h3 class="index__title"><a class="index__link" href="pages/能量消耗和体成分/index.html">能量消耗和体成分</a></h3>
+          <p class="index__desc">5 节 · 能量平衡、低热量膳食、高热量膳食、运动相对能量缺乏症、专业应用。</p>
+        </div>
+        <span class="index__go" aria-hidden="true">→</span>
+      </li>
+      <li class="index__item">
+        <span class="index__num">02</span>
+        <div class="index__body">
+          <h3 class="index__title"><a class="index__link" href="pages/碳水化合物/index.html">碳水化合物</a></h3>
+          <p class="index__desc">4 节 · 碳水化合物的种类、体内碳水化合物的调节、碳水化合物和运动表现、专业应用。</p>
+        </div>
+        <span class="index__go" aria-hidden="true">→</span>
+      </li>
+      <li class="index__item">
+        <span class="index__num">03</span>
+        <div class="index__body">
+          <h3 class="index__title"><a class="index__link" href="pages/力量与爆发力补剂/index.html">力量与爆发力补剂</a></h3>
+          <p class="index__desc">6 节 · 肌酸、HMB、激素原、蛋白质和氨基酸、运动前补剂、专业应用。</p>
+        </div>
+        <span class="index__go" aria-hidden="true">→</span>
+      </li>
+    </ol>
+  </nav>
 </main>
 
 <footer class="site-foot">

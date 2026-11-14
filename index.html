@@ -22,39 +22,6 @@
 </script>
 <link rel="stylesheet" href="assets/css/main.css">
 <script src="assets/js/main.js" defer></script>
-<style>
-  /* ---------- 方案 A：文字主导极简 Hero ---------- */
-  .hero--type { padding: 96px 0 40px; }
-  .hero--type .hero__inner { max-width: 1180px; }
-  .hero--type .hero__eyebrow {
-    font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 2.2rem;
-  }
-  .hero--type .hero__name {
-    font-size: clamp(3.6rem, 10.5vw, 8.6rem);
-    line-height: .92; letter-spacing: -.045em; font-weight: 700;
-    background: none; -webkit-background-clip: border-box; background-clip: border-box;
-    color: var(--text); -webkit-text-fill-color: var(--text);
-  }
-  .hero--type .hero__name .dim { color: var(--muted-2); }
-  .hero--type .hero__lead {
-    margin: 2.4rem 0 0; max-width: 36ch;
-    font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.7; color: var(--muted);
-  }
-  .hero--type .hero__links {
-    display: flex; flex-wrap: wrap; gap: 1.8rem; margin-top: 3rem;
-  }
-  .hero--type .hero__links a {
-    font-size: 15px; color: var(--text);
-    padding-bottom: 3px; border-bottom: 1px solid var(--border-strong);
-    transition: border-color .2s, color .2s;
-  }
-  .hero--type .hero__links a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-  @media (max-width: 560px) {
-    .hero--type { padding: 64px 0 32px; }
-    .hero--type .hero__links { gap: 1.2rem; }
-  }
-</style>
 </head>
 <body data-page="home">
 
@@ -74,7 +41,7 @@
 
     <nav class="nav" id="site-nav" data-nav aria-label="站点导航">
       <a href="index.html" data-nav-link="home">首页</a>
-      <a href="ai-learning/index.html" data-nav-link="ai">AI 学习</a>
+      <a href="ai-learning/index.html" data-nav-link="ai">AI·Agent</a>
       <a href="fitness/index.html" data-nav-link="fitness">健身</a>
       <a href="projects/index.html" data-nav-link="projects">项目</a>
       <!-- 简历入口（暂隐藏，准备好 resume.pdf 后取消注释）
@@ -96,50 +63,51 @@
   <!-- Hero（方案 A：文字主导极简） -->
   <section class="hero hero--type">
     <div class="hero__inner container">
-      <p class="hero__eyebrow">AI 学习者 · 健身爱好者 · 开发者</p>
+      <p class="hero__eyebrow">AI · 训练 · 胡思乱想</p>
       <h1 class="hero__name">Lam<br><span class="dim">Ngai Kong.</span></h1>
-      <p class="hero__lead">记录我在人工智能、力量训练与个人项目上的思考与进展。</p>
+      <p class="hero__lead">记录我在AI、力量训练与个人小项目上的思考与进展。</p>
       <div class="hero__links">
-        <a href="ai-learning/index.html">AI 学习 ↗</a>
-        <a href="fitness/index.html">健身 ↗</a>
-        <a href="projects/index.html">项目 ↗</a>
+        <a href="ai-learning/index.html">AI·Agent →</a>
+        <a href="fitness/index.html">健身 →</a>
+        <a href="projects/index.html">项目 →</a>
         <a href="https://github.com/LamNgaiKong" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
     </div>
   </section>
 
-  <!-- 三大板块入口 -->
-  <section class="section container">
-    <div class="section-head">
-      <h2>我的板块</h2>
+  <!-- 板块索引 -->
+  <nav class="section-index container" aria-label="板块导航">
+    <div class="sec-head">
+      <h2 class="sec-head__kicker">01 — 板块</h2>
+      <span class="sec-head__meta">3 个板块</span>
     </div>
-    <div class="cards cards--3">
-      <a class="card card--link reveal" href="ai-learning/index.html">
-        <span class="card__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 9h6v6H9zM9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg>
-        </span>
-        <h3>AI 学习</h3>
-        <p>大模型、编程助手、Agent 设计模式，以及 DeepSeek 新架构的原理笔记。</p>
-        <span class="card__go">进入板块 →</span>
-      </a>
-      <a class="card card--link card--fit reveal" href="fitness/index.html">
-        <span class="card__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5 2 11l3 3-1.5 1.5 6 6L11 20l3 3 4.5-4.5"/><path d="M17.5 17.5 22 13l-3-3 1.5-1.5-6-6L13 4l-3 3 4.5 4.5"/></svg>
-        </span>
-        <h3>健身</h3>
-        <p>力量训练基础，以及《NSCA 运动营养指南》的学习笔记。</p>
-        <span class="card__go">进入板块 →</span>
-      </a>
-      <a class="card card--link reveal" href="projects/index.html">
-        <span class="card__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 6-5 6 5 6M16 6l5 6-5 6M13 4l-2 16"/></svg>
-        </span>
-        <h3>项目</h3>
-        <p>我开发的小程序与小游戏，陆续上线中。</p>
-        <span class="card__go">进入板块 →</span>
-      </a>
-    </div>
-  </section>
+    <ol class="index">
+      <li class="index__item">
+        <span class="index__num">01</span>
+        <div class="index__body">
+          <h3 class="index__title"><a class="index__link" href="ai-learning/index.html">AI·Agent</a></h3>
+          <p class="index__desc">大模型、编程助手、Agent 设计模式，以及 DeepSeek 新架构的原理笔记。</p>
+        </div>
+        <span class="index__go" aria-hidden="true">→</span>
+      </li>
+      <li class="index__item">
+        <span class="index__num">02</span>
+        <div class="index__body">
+          <h3 class="index__title"><a class="index__link" href="fitness/index.html">健身</a></h3>
+          <p class="index__desc">力量训练基础，以及《NSCA 运动营养指南》的学习笔记。</p>
+        </div>
+        <span class="index__go" aria-hidden="true">→</span>
+      </li>
+      <li class="index__item">
+        <span class="index__num">03</span>
+        <div class="index__body">
+          <h3 class="index__title"><a class="index__link" href="projects/index.html">项目</a></h3>
+          <p class="index__desc">我开发的小程序与小游戏，陆续上线中。</p>
+        </div>
+        <span class="index__go" aria-hidden="true">→</span>
+      </li>
+    </ol>
+  </nav>
 
 </main>
 

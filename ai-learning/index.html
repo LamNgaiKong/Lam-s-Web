@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#f7f8fa">
-<meta name="description" content="AI 学习：大模型、编程助手、Agent 设计模式与 DeepSeek 新架构笔记。">
-<title>AI 学习 · Lam Ngai Kong</title>
+<meta name="description" content="AI·Agent：大模型、编程助手、Agent 设计模式与 DeepSeek 新架构笔记。">
+<title>AI·Agent · Lam Ngai Kong</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ctext x='16' y='22' font-size='16' font-weight='bold' text-anchor='middle' fill='%23fff' font-family='Arial'%3ELK%3C/text%3E%3C/svg%3E">
 <script>
   (function () { var t = null; try { t = localStorage.getItem('lam-web-theme'); } catch (e) {}
@@ -28,7 +28,7 @@
     </button>
     <nav class="nav" id="site-nav" data-nav aria-label="站点导航">
       <a href="../index.html" data-nav-link="home">首页</a>
-      <a href="index.html" data-nav-link="ai">AI 学习</a>
+      <a href="index.html" data-nav-link="ai">AI·Agent</a>
       <a href="../fitness/index.html" data-nav-link="fitness">健身</a>
       <a href="../projects/index.html" data-nav-link="projects">项目</a>
       <!-- 简历入口（暂隐藏，准备好 resume.pdf 后取消注释）
@@ -44,45 +44,50 @@
 </header>
 
 <main class="page" id="main">
-  <section class="hero">
-    <div class="hero__inner container">
-      <span class="eyebrow">AI 学习</span>
-      <h1 class="hero__name">AI 学习</h1>
-      <p class="hero__lead">从大模型与编程助手的基础脉络，到 Agent 设计模式，再到 DeepSeek 新架构（Super-agent、DeepInfer）的原理拆解。</p>
-    </div>
+  <section class="page-head container">
+    <p class="page-head__eyebrow">AI·Agent</p>
+    <h1 class="page-head__title">AI·Agent</h1>
+    <p class="page-head__lead">从大模型与编程助手的基础脉络，到 Agent 设计模式，再到 DeepSeek 新架构（Super-agent、DeepInfer）的原理拆解。</p>
   </section>
 
-  <section class="section container">
-    <div class="cards cards--2">
-      <!-- TODO: 换成真实链接。原「AI大模型与编程助手整理」迁到这里 -->
-      <a class="card card--link reveal" href="models.html">
-        <div class="card__meta"><span class="card__tag">资源页</span><span class="card__date">2026-11</span></div>
-        <h3>AI 大模型与编程助手整理</h3>
-        <p>基础大模型、代码助手产品、名词释义、物理 AI 专题。</p>
-        <span class="card__go">打开文档 →</span>
-      </a>
-      <!-- TODO: 原「Agentic 读书笔记」迁到这里 -->
-      <a class="card card--link reveal" href="agentic-patterns.html">
-        <div class="card__meta"><span class="card__tag">资源页</span><span class="card__date">2026-11</span></div>
-        <h3>《Agentic Design Patterns》读书笔记</h3>
-        <p>21 种智能体设计模式 + 7 个附录速览。</p>
-        <span class="card__go">打开笔记 →</span>
-      </a>
-      <!-- TODO: 新笔记 -->
-      <a class="card card--link reveal" href="#">
-        <div class="card__meta"><span class="card__tag">新笔记</span><span class="card__date">写作中</span></div>
-        <h3>DeepSeek Super-agent：Router + Worker</h3>
-        <p>双层架构：路由层分发、工作层执行的原理解读。</p>
-        <span class="card__go">阅读笔记 →</span>
-      </a>
-      <a class="card card--link reveal" href="#">
-        <div class="card__meta"><span class="card__tag">新笔记</span><span class="card__date">写作中</span></div>
-        <h3>DeepInfer 推理引擎</h3>
-        <p>推理引擎的优化思路与实现细节学习记录。</p>
-        <span class="card__go">阅读笔记 →</span>
-      </a>
+  <nav class="section-index container" aria-label="AI·Agent 内容">
+    <div class="sec-head">
+      <h2 class="sec-head__kicker">01 — 笔记</h2>
+      <span class="sec-head__meta">4 篇</span>
     </div>
-  </section>
+    <ol class="index">
+      <li class="index__item">
+        <span class="index__num">01</span>
+        <div class="index__body">
+          <h3 class="index__title"><a class="index__link" href="models.html">AI 大模型与编程助手整理</a></h3>
+          <p class="index__desc">基础大模型、代码助手产品、名词释义、物理 AI 专题。</p>
+        </div>
+        <span class="index__go" aria-hidden="true">→</span>
+      </li>
+      <li class="index__item">
+        <span class="index__num">02</span>
+        <div class="index__body">
+          <h3 class="index__title"><a class="index__link" href="agentic-patterns.html">《Agentic Design Patterns》读书笔记</a></h3>
+          <p class="index__desc">21 种智能体设计模式 + 7 个附录速览。</p>
+        </div>
+        <span class="index__go" aria-hidden="true">→</span>
+      </li>
+      <li class="index__item index__item--disabled">
+        <span class="index__num">03</span>
+        <div class="index__body">
+          <h3 class="index__title">DeepSeek Super-agent：Router + Worker</h3>
+          <p class="index__desc">写作中 · 双层架构：路由层分发、工作层执行的原理解读。</p>
+        </div>
+      </li>
+      <li class="index__item index__item--disabled">
+        <span class="index__num">04</span>
+        <div class="index__body">
+          <h3 class="index__title">DeepInfer 推理引擎</h3>
+          <p class="index__desc">写作中 · 推理引擎的优化思路与实现细节学习记录。</p>
+        </div>
+      </li>
+    </ol>
+  </nav>
 </main>
 
 <footer class="site-foot">
