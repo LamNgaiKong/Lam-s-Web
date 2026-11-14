@@ -14,6 +14,15 @@
     document.documentElement.setAttribute('data-theme', t); })();
 </script>
 <style>
+  :root {
+    /* 旧版 ECharts 2D 图谱依赖的配色变量（深色版） */
+    --surface: #161f32;
+    --text: #e2e8f0;
+    --muted-2: #64748b;
+    --border-strong: #3a4d6e;
+    --accent: #4f46e5;
+    --accent-2: #f59e0b;
+  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body {
     width: 100%; height: 100%; overflow: hidden;
@@ -445,194 +454,47 @@ async function initGalaxy() {
   if (loading) { loading.classList.add('is-hidden'); setTimeout(() => loading.remove(), 600); }
 }
 
-// ---------- 2D 降级图谱（无 WebGL 时使用，Canvas 2D） ----------
-function render2D() {
+// ---------- 2D 降级图谱（无 WebGL 时使用，旧版 ECharts 力导向图） ----------
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error('script load failed: ' + src));
+    document.body.appendChild(s);
+  });
+}
+
+async function render2D() {
   try {
-    const container = document.getElementById('graph');
-    const canvas = document.createElement('canvas');
-    canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab';
-    container.innerHTML = '';
-    container.appendChild(canvas);
-    const ctx = canvas.getContext('2d');
-    if (!ctx) throw new Error('canvas 2d unavailable');
+    // ECharts + 旧版力导向图脚本（本地化，无需联网）
+    await loadScript('../../assets/js/vendor/echarts.min.js');
+    await loadScript('../../assets/js/nsca-graph.js');
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    let W = innerWidth, H = innerHeight;
-
-    // 径向树布局
-    const byId = {};
-    TREE.nodes.forEach(n => { byId[n.id] = n; n._x = 0; n._y = 0; });
-    const children = {};
-    TREE.nodes.forEach(n => { children[n.id] = []; });
-    TREE.links.forEach(l => {
-      if (byId[l.source] && byId[l.target]) children[l.source].push(l.target);
-    });
-    const root = TREE.nodes.find(n => n.depth === 0) || TREE.nodes[0];
-    const R = [0, 190, 380, 580];
-    (function place(id, a0, a1, depth) {
-      const n = byId[id];
-      if (!n) return;
-      const mid = (a0 + a1) / 2;
-      const r = R[Math.min(depth, 3)];
-      n._x = Math.cos(mid) * r;
-      n._y = Math.sin(mid) * r;
-      const kids = children[id] || [];
-      if (!kids.length) return;
-      const step = (a1 - a0) / kids.length;
-      kids.forEach((kid, i) => place(kid, a0 + i * step, a0 + (i + 1) * step, depth + 1));
-    })(root.id, -Math.PI / 2, Math.PI * 1.5, 0);
-
-    const RAD = { 0: 11, 1: 8, 2: 5, 3: 3.5 };
-    const COL = { 0: '#ffb347', 1: '#5b6fd6', 2: '#1d9e6c', 3: '#8f98a8' };
-    const relLinks = (NOTES.relations || []).filter(r => byId[r.from] && byId[r.to]);
-
-    let view = { x: 0, y: 0, k: 1 };
-    let drag = null, moved = false;
-
-    function isDark() { return document.documentElement.getAttribute('data-theme') === 'dark'; }
-    function fitScale() { return Math.min(W, H) / (2 * 640) * 0.92; }
-
-    function draw() {
-      const dark = isDark();
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = dark ? '#000005' : '#28313f';
-      ctx.fillRect(0, 0, W, H);
-
-      const k = fitScale() * view.k;
-      const cx = W / 2 + view.x;
-      const cy = H / 2 + view.y;
-
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.scale(k, k);
-
-      // 层级连线
-      ctx.lineWidth = 1 / k;
-      ctx.strokeStyle = dark ? 'rgba(120,150,220,0.32)' : 'rgba(200,220,255,0.35)';
-      ctx.beginPath();
-      TREE.links.forEach(l => {
-        const a = byId[l.source], b = byId[l.target];
-        if (!a || !b) return;
-        ctx.moveTo(a._x, a._y);
-        ctx.lineTo(b._x, b._y);
-      });
-      ctx.stroke();
-
-      // 跨章节关联
-      ctx.strokeStyle = '#ffb347';
-      ctx.lineWidth = 1.6 / k;
-      ctx.beginPath();
-      relLinks.forEach(r => {
-        ctx.moveTo(byId[r.from]._x, byId[r.from]._y);
-        ctx.lineTo(byId[r.to]._x, byId[r.to]._y);
-      });
-      ctx.stroke();
-
-      // 节点
-      TREE.nodes.forEach(n => {
-        const d = n.depth || 0;
-        ctx.beginPath();
-        ctx.arc(n._x, n._y, RAD[d] || 4, 0, Math.PI * 2);
-        ctx.fillStyle = COL[d] || '#8f98a8';
-        ctx.shadowColor = COL[d] || '#8f98a8';
-        ctx.shadowBlur = (d === 0 ? 24 : d === 1 ? 10 : 4) / k;
-        ctx.fill();
-      });
-      ctx.shadowBlur = 0;
-
-      // 标签（总览/章节/小节）
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      TREE.nodes.forEach(n => {
-        const d = n.depth || 0;
-        if (d > 2) return;
-        const size = (d === 0 ? 15 : d === 1 ? 12 : 10) / k;
-        ctx.font = (d === 0 ? '600 ' : '') + size + 'px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif';
-        ctx.fillStyle = dark ? (d === 0 ? '#ffe3a3' : '#cdd6f4') : '#eef2fb';
-        ctx.fillText(n.name, n._x, n._y - (RAD[d] + 11) / k);
-      });
-
-      ctx.restore();
-    }
-
-    function hitTest(clientX, clientY) {
-      const k = fitScale() * view.k;
-      const cx = W / 2 + view.x;
-      const cy = H / 2 + view.y;
-      let best = null, bestD = Infinity;
-      TREE.nodes.forEach(n => {
-        const sx = cx + n._x * k, sy = cy + n._y * k;
-        const d = Math.hypot(clientX - sx, clientY - sy);
-        if (d < bestD) { bestD = d; best = n; }
-      });
-      return bestD <= 20 ? best : null;
-    }
-
-    function resize() {
-      W = innerWidth; H = innerHeight;
-      canvas.width = Math.round(W * dpr);
-      canvas.height = Math.round(H * dpr);
-      draw();
-    }
-
-    canvas.addEventListener('click', (e) => {
-      if (moved) return;
-      const n = hitTest(e.clientX, e.clientY);
-      if (n && n.file) window.location.href = n.file;
-    });
-    canvas.addEventListener('pointerdown', (e) => {
-      drag = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y };
-      moved = false;
-      try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
-      canvas.style.cursor = 'grabbing';
-    });
-    canvas.addEventListener('pointermove', (e) => {
-      if (drag) {
-        const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
-        if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
-        view.x = drag.vx + dx;
-        view.y = drag.vy + dy;
-        draw();
-      } else {
-        canvas.style.cursor = hitTest(e.clientX, e.clientY) ? 'pointer' : 'grab';
-      }
-    });
-    canvas.addEventListener('pointerup', () => { drag = null; canvas.style.cursor = 'grab'; });
-    canvas.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      view.k = Math.max(0.35, Math.min(3, view.k * (e.deltaY < 0 ? 1.12 : 0.89)));
-      draw();
-    }, { passive: false });
-
-    // 主题按钮
-    function syncIcon() {
-      const t = document.getElementById('theme-toggle');
-      if (t) t.textContent = isDark() ? '☀️' : '🌙';
-    }
-    const tbtn = document.getElementById('theme-toggle');
-    if (tbtn) tbtn.addEventListener('click', () => {
-      const next = isDark() ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      try { localStorage.setItem('lam-web-theme', next); } catch (e) {}
-      syncIcon();
-      draw();
-    });
-    if (window.MutationObserver) {
-      new MutationObserver(() => { syncIcon(); draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    }
-    syncIcon();
-
+    // 隐藏 3D 专用提示
     const hint = document.querySelector('.hint');
     if (hint) hint.style.display = 'none';
 
-    resize();
-    window.addEventListener('resize', resize);
+    // 主题切换（nsca-graph.js 内部监听 data-theme 自动重绘）
+    const tbtn = document.getElementById('theme-toggle');
+    const isDark = () => document.documentElement.getAttribute('data-theme') === 'dark';
+    if (tbtn) {
+      tbtn.textContent = isDark() ? '☀️' : '🌙';
+      tbtn.addEventListener('click', () => {
+        const next = isDark() ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('lam-web-theme', next); } catch (e) {}
+        tbtn.textContent = isDark() ? '☀️' : '🌙';
+      });
+    }
+
+    window.NSCAGraph.mount('graph', null);
+
     document.getElementById('graph').dataset.ok = '1';
     const loading = document.getElementById('loading');
     if (loading) { loading.classList.add('is-hidden'); setTimeout(() => loading.remove(), 400); }
   } catch (e) {
-    console.warn('[2d] 降级失败，回退目录', e);
+    console.warn('[2d] ECharts 加载失败，回退目录', e);
     renderFallback();
   }
 }
